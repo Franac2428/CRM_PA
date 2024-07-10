@@ -11,6 +11,12 @@ namespace DataAccess.Interfaces
         //Agregar los demás DAL referentes a los Entities
         ITipoIdentificacionDAL TipoIdentificacionDAL { get; }
         IClienteDAL ClienteDAL { get; }
+
+
+        IEstadoMovimientoDAL EstadoMovimientoDAL { get; }
+
+        IInfoEmpresaDAL InfoEmpresaDAL { get; }
+
         bool Complete();
     }
 }

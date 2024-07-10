@@ -13,13 +13,20 @@ namespace DataAccess.Implementations
         public IClienteDAL ClienteDAL { get; set; }
         public ITipoIdentificacionDAL TipoIdentificacionDAL { get; set; }
 
+        public IEstadoMovimientoDAL EstadoMovimientoDAL { get; set; }
+
+        public IInfoEmpresaDAL InfoEmpresaDAL { get; set; }
+
+
         private CrmContext _crm { get; set; }
 
-        public UnidadTrabajo(CrmContext crm, IClienteDAL clienteDAL,ITipoIdentificacionDAL tipoIdentificacionDAL)
+        public UnidadTrabajo(CrmContext crm, IClienteDAL clienteDAL,ITipoIdentificacionDAL tipoIdentificacionDAL, IEstadoMovimientoDAL estadoMovimientoDAL, IInfoEmpresaDAL infoEmpresaDAL)
         {
             this._crm = crm;
             this.ClienteDAL = clienteDAL;
             this.TipoIdentificacionDAL = tipoIdentificacionDAL;
+            EstadoMovimientoDAL = estadoMovimientoDAL;
+            InfoEmpresaDAL = infoEmpresaDAL;
         }
 
         public bool Complete()
