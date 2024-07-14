@@ -24,12 +24,16 @@ builder.Services.AddScoped<IClienteDAL, ClienteDAL>();
 builder.Services.AddScoped<ITipoIdentificacionDAL, TipoIdentificacionDAL>();
 builder.Services.AddScoped<IInfoEmpresaDAL, InfoEmpresaDALImpl>();
 builder.Services.AddScoped<IEstadoMovimientoDAL, EstadoMovimientoDALImpl>();
+builder.Services.AddScoped<ITipoEstadoPagoDAL, TipoEstadoPagoDALImpl>();
+builder.Services.AddScoped<IServiciosDAL, ServiciosDALImpl>();
 
 //Servicios:
 builder.Services.AddScoped<IClienteSvc, ClienteSvc>();
 builder.Services.AddScoped<ITipoIdentificacionSvc, TipoIdentificacionSvc>();
 builder.Services.AddScoped<IInfoEmpresaServices, InfoEmpresaServices>();
 builder.Services.AddScoped<IEstadoMovimientoServices, EstadoMovimientoServices>();
+builder.Services.AddScoped<ITipoEstadoPagoServices, TipoEstadoPagoServices>();
+builder.Services.AddScoped<IServiciosServicios, ServiciosServices>();
 
 
 var app = builder.Build();

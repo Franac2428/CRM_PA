@@ -17,6 +17,10 @@ namespace DataAccess.Interfaces
 
         IInfoEmpresaDAL InfoEmpresaDAL { get; }
 
+        IServiciosDAL ServiciosDAL { get; }
+
+        ITipoEstadoPagoDAL TipoEstadoPagoDAL { get; }
+
         bool Complete();
     }
 }
