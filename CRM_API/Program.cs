@@ -3,6 +3,7 @@ using CRM_API.Services.Interfaces;
 using DataAccess.Implementations;
 using DataAccess.Interfaces;
 using Entities.Entities;
+using Microsoft.Data.SqlClient;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,6 +27,11 @@ builder.Services.AddScoped<IInfoEmpresaDAL, InfoEmpresaDALImpl>();
 builder.Services.AddScoped<IEstadoMovimientoDAL, EstadoMovimientoDALImpl>();
 builder.Services.AddScoped<ITipoEstadoPagoDAL, TipoEstadoPagoDALImpl>();
 builder.Services.AddScoped<IServiciosDAL, ServiciosDALImpl>();
+builder.Services.AddScoped<ISaldoDAL, SaldoDALImpl>();
+builder.Services.AddScoped<ITipoMonedaDAL, TipoMonedaDALImpl>();
+builder.Services.AddScoped<IMovimientoDAL, MovimientoDALImpl>();
+builder.Services.AddScoped<ITipoMovimientoDAL, TipoMovimientoDALImpl>();
+
 
 //Servicios:
 builder.Services.AddScoped<IClienteSvc, ClienteSvc>();
@@ -34,7 +40,10 @@ builder.Services.AddScoped<IInfoEmpresaServices, InfoEmpresaServices>();
 builder.Services.AddScoped<IEstadoMovimientoServices, EstadoMovimientoServices>();
 builder.Services.AddScoped<ITipoEstadoPagoServices, TipoEstadoPagoServices>();
 builder.Services.AddScoped<IServiciosServicios, ServiciosServices>();
-
+builder.Services.AddScoped<ISaldoServices, SaldoServices>();
+builder.Services.AddScoped<ITipoMonedaServices, TipoMonedaServices>();
+builder.Services.AddScoped<IMovimientoServices, MovimientoServices>();
+builder.Services.AddScoped<ITipoMovimientoServices, TipoMovimientoServices>();
 
 var app = builder.Build();
 

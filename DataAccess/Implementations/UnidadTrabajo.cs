@@ -23,10 +23,15 @@ namespace DataAccess.Implementations
 
         public ITipoEstadoPagoDAL TipoEstadoPagoDAL { get; set; }
 
+        public ISaldoDAL SaldoDAL { get; set; }
+
+        public ITipoMonedaDAL TipoMonedaDAL { get; set; }
+        public IMovimientoDAL MovimientoDAL { get; set; }
+        public ITipoMovimientoDAL TipoMovimientoDAL { get; set; }
 
         private CrmContext _crm { get; set; }
 
-        public UnidadTrabajo(CrmContext crm, IClienteDAL clienteDAL,ITipoIdentificacionDAL TipoIdentificacionDAL, IEstadoMovimientoDAL estadoMovimientoDAL, IInfoEmpresaDAL infoEmpresaDAL, IServiciosDAL ServiciosDAL, ITipoEstadoPagoDAL TipoEstadoPagoDAL)
+        public UnidadTrabajo(CrmContext crm, IClienteDAL clienteDAL,ITipoIdentificacionDAL TipoIdentificacionDAL, IEstadoMovimientoDAL estadoMovimientoDAL, IInfoEmpresaDAL infoEmpresaDAL, IServiciosDAL ServiciosDAL, ITipoEstadoPagoDAL TipoEstadoPagoDAL, ISaldoDAL SaldoDAL, ITipoMonedaDAL TipoMonedaDAL, IMovimientoDAL MovimientoDAL, ITipoMovimientoDAL TipoMovimientoDAL)
         {
             this._crm = crm;
             this.ClienteDAL = clienteDAL;
@@ -35,6 +40,10 @@ namespace DataAccess.Implementations
             this.TipoEstadoPago = TipoEstadoPago;
             this.ServiciosDAL = ServiciosDAL;
             this.TipoEstadoPagoDAL = TipoEstadoPagoDAL;
+            this.SaldoDAL = SaldoDAL;
+            this.TipoMonedaDAL = TipoMonedaDAL;
+            this.MovimientoDAL = MovimientoDAL;
+            this.TipoMovimientoDAL = TipoMovimientoDAL;
         }
 
         public bool Complete()

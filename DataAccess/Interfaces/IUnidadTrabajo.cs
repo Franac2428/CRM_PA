@@ -21,6 +21,14 @@ namespace DataAccess.Interfaces
 
         ITipoEstadoPagoDAL TipoEstadoPagoDAL { get; }
 
+        ISaldoDAL SaldoDAL { get; }
+
+        ITipoMonedaDAL TipoMonedaDAL { get; }
+
+        IMovimientoDAL MovimientoDAL { get; }
+
+        ITipoMovimientoDAL TipoMovimientoDAL { get; }
+
         bool Complete();
     }
 }
