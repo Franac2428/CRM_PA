@@ -1,0 +1,133 @@
+﻿@model IEnumerable<ClienteViewModel>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Administrar Clientes";
+    string[] items = new string[] { "Clientes", "Adm. Clientes" };
+}
+
+
+<div class=" pt-16 lg:pl-64 pl-0 bg-white dark:bg-gray-900">
+    <div class="p-4 pt-40 sm:ml-64">
+        <div class="p-1">
+            <nav class="flex" aria-label="Breadcrumb">
+                <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
+                    @HtmlElement.TailwindBreadCrumb(Html, items)
+                </ol>
+            </nav>
+            <br />
+            <div class="p-1">
+                <h4 class="text-2xl font-bold dark:text-white">Administración de Clientes</h4>
+                <div class="mt-4 grid grid-cols-12 mb-3">
+
+                    <div class="flex items-center justify-between flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 pb-4 bg-white dark:bg-gray-900">
+                        <div class="relative">
+@*                             @HtmlElement.ActionLink(Html,"purple", "Agregar Cliente", "AgregarCliente", "Cliente", "fa-solid fa-user-plus", "btnAddCliente")
+ *@                        </div>
+                    </div>
+
+                    @if (ViewData["NoDataList"] != null)
+                    {
+                        @HtmlElement.TailwindAlert(Html, "Advertencia", ViewData["NoDataList"].ToString(), "yellow", "fa-solid fa fa-exclamation-triangle", "")
+                    }
+
+                    @if (ViewData["ErrorList"] != null)
+                    {
+                        @HtmlElement.TailwindAlert(Html, "Ocurrió un error", ViewData["ErrorList"].ToString(), "red", "fa-solid fa fa-times-circle", "")
+                    }
+
+                    @if (Model.Any())
+                    {
+                        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+
+
+                            <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                <thead class="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
+                                    <tr>
+                                        <th hidden scope="col" class="px-6 py-3">
+                                            IdCliente
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            Nombre Completo
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            Identificación
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            Correo / Teléfonos
+                                        </th>
+
+                                        <th scope="col" class="px-6 py-3">
+                                            Estado
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            Acciones
+                                        </th>
+
+                                    </tr>
+                                </thead>
+                                <tbody class=" bg-gray-50 dark:bg-gray-800">
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td hidden class="px-6 py-4">
+                                                @item.IdCliente
+                                            </td>
+                                            <td class="px-6 py-4">
+                                                @item.Nombre
+                                            </td>
+                                            <td class="px-6 py-4">
+                                                @item.Identificacion
+                                            </td>
+                                            <td class="px-6 py-4">
+                                                <div class="ps-3">
+                                                    @{
+                                                        var telefonoFormat = @item.Telefono.Substring(0, 4) + "-" + @item.Telefono.Substring(4, 4);
+                                                    }
+                                                    <div id="telefono_@item.IdCliente" class="m-2">@HtmlElement.TailwindBadge(Html, "blue", "fa-solid fa-phone", telefonoFormat, "")</div>
+                                                    <div id="correo_@item.IdCliente" class="m-2">@HtmlElement.TailwindBadge(Html, "gray", "fa-solid fa-envelope", @item.Correo, "")</div>
+                                                </div>
+                                            </td>
+                                            <td class="px-6 py-4">
+                                                @if (item.Eliminado != false)
+                                                {
+                                                    @HtmlElement.TailwindBadge(Html, "red", "fa-solid fa-ban", "Inactivo", "")
+                                                }
+                                                else
+                                                {
+                                                    @HtmlElement.TailwindBadge(Html, "green", "fa-solid fa-check", "Activo", "")
+                                                }
+                                            </td>
+                                            <td class="px-6 py-4">
+                                                @if (item.Eliminado != false)
+                                                {
+                                                    @HtmlElement.TailwindTableButton(Html, "green", "", "fa-solid fa-check", "", "btn", "Activar Cliente", "")
+                                                }
+                                                else
+                                                {
+                                                    @HtmlElement.TailwindTableButton(Html, "red", "", "fa-solid fa-ban", "", "btn", "Inactivar Cliente", "")
+                                                }
+
+                                                @HtmlElement.TailwindTableButton(Html, "blue", "", "fa-solid fa-pencil", "", "btn", "Editar Cliente", $"/Cliente/Editar/{item.IdCliente}")
+
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+
+                    }
+                    
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+

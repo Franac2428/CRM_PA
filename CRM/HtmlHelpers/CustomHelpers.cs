@@ -1,12 +1,17 @@
-﻿using Microsoft.AspNetCore.Html;
+﻿using Entities.Entities;
+using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Newtonsoft.Json;
+using System.Linq.Expressions;
+using System;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 namespace CRM.HtmlHelpers;
 
 public static class CustomHelpers
 {
 
-    public static IHtmlContent Input(this IHtmlHelper helper, int colSpan, string labelName, string inputId, string placeholder, string additionalClass = "", string onChange = "", string inputType = "text")
+    public static IHtmlContent Input1(this IHtmlHelper helper, int colSpan, string labelName, string inputId, string placeholder, string additionalClass = "", string onChange = "", string inputType = "text")
     {
         var div = new TagBuilder("div");
         div.AddCssClass($"col-span-{colSpan} sm:col-span-1");
@@ -33,14 +38,14 @@ public static class CustomHelpers
     }
 
 
-    public static IHtmlContent Button(this IHtmlHelper helper, string color, string innerText, string onClick, string type, string icon, string additionalClass, string id)
+    public static IHtmlContent Button(this IHtmlHelper helper, string color, string innerText, string url, string type, string icon, string additionalClass, string id)
     {
         TagBuilder tb = new TagBuilder("button");
         tb.Attributes.Add("class", $"text-{color}-700 hover:text-white border border-{color}-700 hover:bg-{color}-800 focus:ring-4 focus:outline-none focus:ring-{color}-300 font-medium rounded-lg text-sm px-3 py-2.5 text-center me-2 mb-2 dark:border-{color}-500 dark:text-{color}-500 dark:hover:text-white dark:hover:bg-{color}-500 dark:focus:ring-{color}-800 {additionalClass}");
         tb.Attributes.Add("type", type);
         tb.Attributes.Add("id", id);
         tb.InnerHtml.AppendHtml($"<i class='{icon}'></i> {innerText}");
-        tb.MergeAttribute("onclick", onClick);
+        tb.MergeAttribute("href", url);
 
 
         return new HtmlContentBuilder().AppendHtml(tb);
@@ -56,19 +61,60 @@ public static class CustomHelpers
         return new HtmlContentBuilder().AppendHtml(tb);
     }
 
-    public static IHtmlContent TailwindInput(this IHtmlHelper helper, string id, string name, string type, string placeholder, string additionalClass)
+    public static IHtmlContent Input(this IHtmlHelper helper, string id, string name, string type, string placeholder, string labelText, string additionalClass)
     {
-        TagBuilder tb = new TagBuilder("input");
-        tb.Attributes.Add("class", $"bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-800 dark: border border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 {additionalClass}");
-        tb.Attributes.Add("id", id);
-        tb.Attributes.Add("name", name);
-        tb.Attributes.Add("type", type);
-        tb.Attributes.Add("placeholder", placeholder);
+        // Crear el label
+        TagBuilder label = new TagBuilder("label");
+        label.Attributes.Add("for", id);
+        label.Attributes.Add("class", "block mb-2 text-md font-medium text-gray-900 dark:text-white");
+        label.InnerHtml.Append(labelText);
 
+        // Crear el input
+        TagBuilder input = new TagBuilder("input");
+        input.Attributes.Add("class", $"bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 {additionalClass}");
+        input.Attributes.Add("id", id);
+        input.Attributes.Add("name", name);
+        input.Attributes.Add("type", type);
+        input.Attributes.Add("placeholder", placeholder);
 
-        return new HtmlContentBuilder().AppendHtml(tb);
+        HtmlContentBuilder builder = new HtmlContentBuilder();
+        builder.AppendHtml(label);
+        builder.AppendHtml(input);
+
+        return builder;
     }
 
+    public static IHtmlContent Select(this IHtmlHelper helper, string id, string name, IEnumerable<TipoIdentificacion> tiposIdentificacion, string additionalClass, string labelText)
+    {
+        // Crear el label
+        TagBuilder label = new TagBuilder("label");
+        label.Attributes.Add("for", id);
+        label.Attributes.Add("class", "block mb-2 text-md font-medium text-gray-900 dark:text-white");
+        label.InnerHtml.Append(labelText);
+
+        // Crear el select
+        TagBuilder select = new TagBuilder("select");
+        select.Attributes.Add("class", $"bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 {additionalClass}");
+        select.Attributes.Add("id", id);
+        select.Attributes.Add("name", name);
+
+        if (tiposIdentificacion != null)
+        {
+            foreach (var tipo in tiposIdentificacion)
+            {
+                TagBuilder optionTag = new TagBuilder("option");
+                optionTag.Attributes.Add("value", tipo.IdTipoIdentificacion.ToString());
+                optionTag.InnerHtml.Append(tipo.Nombre);
+                select.InnerHtml.AppendHtml(optionTag);
+            }
+        }
+
+        HtmlContentBuilder builder = new HtmlContentBuilder();
+        builder.AppendHtml(label);
+        builder.AppendHtml(select);
+
+        return builder;
+    }
     public static IHtmlContent TailwindHref(this IHtmlHelper helper, string url, string innerText)
     {
         TagBuilder tb = new TagBuilder("a");
@@ -123,42 +169,20 @@ public static class CustomHelpers
 
         return new HtmlContentBuilder().AppendHtml(tb);
     }
-    public static IHtmlContent TailwindSelect(this IHtmlHelper helper, string id, string name, IDictionary<string, string> options, string additionalClass)
-    {
-        TagBuilder tb = new TagBuilder("select");
-        tb.Attributes.Add("class", $"bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-800 dark: border border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 {additionalClass}");
-        tb.Attributes.Add("id", id);
-        tb.Attributes.Add("name", name);
 
-        if (options != null)
-        {
-            foreach (var option in options)
-            {
-                TagBuilder optionTag = new TagBuilder("option");
-                optionTag.Attributes.Add("value", option.Key);
-                optionTag.InnerHtml.Append(option.Value);
-                tb.InnerHtml.AppendHtml(optionTag);
-            }
-        }
-
-
-        return new HtmlContentBuilder().AppendHtml(tb);
-    }
-
-    public static IHtmlContent TailwindTableButton(this IHtmlHelper helper, string color, string onClick, string icon, string additionalClass, string id, string title, bool isModal, string idModal)
+    public static IHtmlContent TailwindTableButton(this IHtmlHelper helper, string color, string onClick, string icon, string additionalClass, string id, string title,string url)
     {
         TagBuilder tb = new TagBuilder("button");
         tb.Attributes.Add("class", $"text-{color}-700 hover:text-white border border-{color}-700 hover:bg-{color}-800 focus:ring-4 focus:outline-none focus:ring-{color}-300 font-medium rounded-lg text-sm px-3 py-2.5 text-center me-2 mb-2 dark:border-{color}-500 dark:text-{color}-500 dark:hover:text-white dark:hover:bg-{color}-500 dark:focus:ring-{color}-800 {additionalClass}");
         tb.Attributes.Add("type", "button");
         tb.Attributes.Add("id", id);
         tb.Attributes.Add("title", title);
-        tb.MergeAttribute("onclick", onClick);
+        //tb.MergeAttribute("onclick", onClick);
         tb.InnerHtml.AppendHtml($"<i class='{icon}'></i>");
 
-        if (isModal)
+        if (!string.IsNullOrEmpty(url))
         {
-            tb.Attributes.Add("data-modal-target", idModal);
-            tb.Attributes.Add("data-modal-toggle", idModal);
+            tb.Attributes.Add("onclick", $"window.location.href='{url}';");
         }
 
         return new HtmlContentBuilder().AppendHtml(tb);
@@ -199,6 +223,66 @@ public static class CustomHelpers
         return new HtmlContentBuilder().AppendHtml(tb);
     }
 
+    public static IHtmlContent TailwindAlert(this IHtmlHelper helper, string title, string message, string color,string icon, string additionalClass = "")
+    {
+        TagBuilder tb = new TagBuilder("div");
+        var html = $"<div class='flex items-center p-4 mb-4 text-sm text-{color}-800 rounded-lg bg-{color}-200 dark:bg-{color}-800 dark:text-{color}-200 {additionalClass}' role='alert'>" +
+                   $"<i class='{icon}  mr-2'></i>" +
+                   $"<span class='font-medium mr-1'>{title}:</span>" +
+                   $"{message}</div>";
+        tb.InnerHtml.AppendHtml(html);
+        return new HtmlContentBuilder().AppendHtml(tb);
+    }
+
+    public static IHtmlContent ActionLink(this IHtmlHelper helper, string color, string innerText, string action, string controller, string icon, string id)
+    {
+        var html = $"<a href='/{controller}/{action}' class='text-{color}-700 hover:text-white border border-{color}-700 hover:bg-{color}-800 focus:ring-4 focus:outline-none focus:ring-{color}-300 font-medium rounded-lg text-sm px-3 py-2.5 text-center me-2 mb-2 dark:border-{color}-500 dark:text-{color}-500 dark:hover:text-white dark:hover:bg-{color}-500 dark:focus:ring-{color}-800' id='{id}'>" +
+                   $"<i class='{icon}'></i> {innerText}</a>";
+
+        return new HtmlContentBuilder().AppendHtml(html);
+    }
+
+    public static IHtmlContent Input2(this IHtmlHelper helper, string propertyName, string labelName, string placeholder, string additionalClass = "", string onChange = "", string inputType = "text")
+    {
+        var metadata = helper.ViewData.ModelMetadata.Properties.FirstOrDefault(p => p.PropertyName == propertyName);
+        if (metadata == null)
+        {
+            throw new ArgumentException($"No se encontró la propiedad '{propertyName}' en el modelo.");
+        }
+
+        var div = new TagBuilder("div");
+        div.AddCssClass("col-span-1");
+
+        var label = new TagBuilder("label");
+        label.Attributes.Add("for", propertyName);
+        label.AddCssClass("block mb-2 text-sm font-medium text-gray-900 dark:text-white");
+        label.InnerHtml.Append(labelName);
+
+        var input = new TagBuilder("input");
+        input.Attributes.Add("id", propertyName);
+        input.Attributes.Add("name", propertyName);
+        input.Attributes.Add("placeholder", placeholder);
+        input.Attributes.Add("type", inputType);
+        if (!string.IsNullOrEmpty(onChange))
+        {
+            input.Attributes.Add("onchange", onChange);
+        }
+        input.AddCssClass($"bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 {additionalClass}");
+
+        var span = new TagBuilder("span");
+        span.Attributes.Add("data-valmsg-for", propertyName);
+        span.Attributes.Add("data-valmsg-replace", "true");
+        span.AddCssClass("text-red-600");
+
+        var contentBuilder = new HtmlContentBuilder();
+        contentBuilder.AppendHtml(label);
+        contentBuilder.AppendHtml(input);
+        contentBuilder.AppendHtml(span);
+
+        div.InnerHtml.AppendHtml(contentBuilder);
+
+        return new HtmlContentBuilder().AppendHtml(div);
+    }
 
 
 

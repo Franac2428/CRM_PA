@@ -37,13 +37,14 @@ namespace DataAccess.Implementations
             this.ClienteDAL = clienteDAL;
             this.EstadoMovimientoDAL = estadoMovimientoDAL;
             this.InfoEmpresaDAL = infoEmpresaDAL;
-            this.TipoEstadoPago = TipoEstadoPago;
+            this.TipoEstadoPago = TipoEstadoPagoDAL;
             this.ServiciosDAL = ServiciosDAL;
             this.TipoEstadoPagoDAL = TipoEstadoPagoDAL;
             this.SaldoDAL = SaldoDAL;
             this.TipoMonedaDAL = TipoMonedaDAL;
             this.MovimientoDAL = MovimientoDAL;
             this.TipoMovimientoDAL = TipoMovimientoDAL;
+            this.TipoIdentificacionDAL = TipoIdentificacionDAL;
         }
 
         public bool Complete()
