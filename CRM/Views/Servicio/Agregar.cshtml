@@ -57,7 +57,7 @@
 
                                     <div class="col-span-1">
                                         <div class="block mb-2 text-md font-medium text-gray-900 dark:text-white">
-                                            Tipo Identificación
+                                            Tipo Moneda
                                         </div>
                                         @if (tiOptions != null)
                                         {
@@ -70,16 +70,16 @@
                                         }
                                         else
                                         {
-                                            <span class="text-red-600">Debe seleccionar un tipo de identificación</span>
+                                            <span class="text-red-600">Debe seleccionar un tipo de Moneda</span>
                                         }
                                         <span asp-validation-for="IdMoneda" class="text-red-600"></span>
                                     </div>
 
                                     <div class="col-span-1">
                                         <div class="block mb-2 text-md font-medium text-gray-900 dark:text-white">
-                                            Identificación
+                                            Moneda
                                         </div>
-                                        @Html.TextBoxFor(model => model.IdMoneda, new { @class = "bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500", placeholder = "Identificación", required = "required" })
+                                        @Html.TextBoxFor(model => model.IdMoneda, new { @class = "bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500", placeholder = "Moneda", required = "required" })
                                         <span asp-validation-for="Nombre" class="text-red-600"></span>
                                     </div>
 
@@ -100,7 +100,7 @@
                                         }
                                         else
                                         {
-                                            <span class="text-red-600">Debe seleccionar un tipo de identificación</span>
+                                            <span class="text-red-600">Debe seleccionar un tipo de Moneda</span>
                                         }
                                         <span asp-validation-for="IdTipoMoneda" class="text-red-600"></span>
                                     </div> *@

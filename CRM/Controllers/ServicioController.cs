@@ -169,7 +169,7 @@ namespace CRM.Controllers
 
             if (tiposIdSesion == null)
             {
-                var listadoServiciosTiposId = ServicioHelper.GetTiposIdentificacion();
+                var listadoServiciosTiposId = ServicioHelper.GetTiposMoneda();
 
                 if (listadoServiciosTiposId != null)
                 {

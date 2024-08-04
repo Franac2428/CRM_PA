@@ -37,9 +37,9 @@ namespace CRM.Helpers.Interfaces
 
         }
 
-        public List<TipoIdentificacion> GetTiposIdentificacion()
+        public List<TipoIdentificacion> GetTiposMoneda()
         {
-            HttpResponseMessage response = ServiceRepository.GetResponse("api/tipoIdentificacion");
+            HttpResponseMessage response = ServiceRepository.GetResponse("api/IdMoneda");
             List<TipoIdentificacion> result = new List<TipoIdentificacion>();
 
             if (response != null)
