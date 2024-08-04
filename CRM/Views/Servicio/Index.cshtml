@@ -1,0 +1,138 @@
+﻿@model IEnumerable<ServicioViewModel>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Administrar Servicios";
+    string[] items = new string[] { "Servicios", "Adm. Servicios" };
+}
+
+
+<div class=" pt-16 lg:pl-64 pl-0 bg-white dark:bg-gray-900">
+    <div class="p-4 pt-40 sm:ml-64">
+        <div class="p-1">
+            <nav class="flex" aria-label="Breadcrumb">
+                <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
+                    @HtmlElement.TailwindBreadCrumb(Html, items)
+                </ol>
+            </nav>
+            <br />
+            <div class="p-1">
+                <h4 class="text-2xl font-bold dark:text-white">Administración de Servicios</h4>
+                <div class="mt-4 grid grid-cols-12 mb-3">
+
+                    <div class="flex items-center justify-between flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 pb-4 bg-white dark:bg-gray-900">
+                        <div class="relative">
+@*                             @HtmlElement.ActionLink(Html,"purple", "Agregar Servicio", "AgregarServicio", "Servicio", "fa-solid fa-user-plus", "btnAddServicio")
+ *@                        </div>
+                    </div>
+                    @if (TempData["SuccessAction"] != null)
+                    {
+                        @HtmlElement.TailwindAlert(Html, "Información", TempData["SuccessAction"].ToString(), "green", "fa-solid fa fa-check", "")
+                    }
+
+                    @if (TempData["ErrorAction"] != null)
+                    {
+                        @HtmlElement.TailwindAlert(Html, "Error", TempData["ErrorAction"].ToString(), "red", "fa-solid fa fa-times", "")
+                    }
+
+                    @if (ViewData["NoDataList"] != null)
+                    {
+                        @HtmlElement.TailwindAlert(Html, "Advertencia", ViewData["NoDataList"].ToString(), "yellow", "fa-solid fa fa-exclamation-triangle", "")
+                    }
+
+                    @if (ViewData["ErrorList"] != null)
+                    {
+                        @HtmlElement.TailwindAlert(Html, "Ocurrió un error", ViewData["ErrorList"].ToString(), "red", "fa-solid fa fa-times-circle", "")
+                    }
+
+                    @if (Model.Any())
+                    {
+                        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                            <div style="overflow:auto; max-height:30rem">
+                                <!-- Agrega esta línea -->
+                                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                    <thead class="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
+                                        <tr>
+                                            <th hidden scope="col" class="px-6 py-3">
+                                                IdServicio
+                                            </th>
+                                            <th scope="col" class="px-6 py-3">
+                                                Nombre 
+                                            </th>
+                                            <th scope="col" class="px-6 py-3">
+                                                Monto
+                                            </th>
+                                            <th scope="col" class="px-6 py-3">
+                                               IdMoneda
+                                            </th>      
+                                            
+                                            <th scope="col" class="px-6 py-3">
+                                                Acciones
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="bg-gray-50 dark:bg-gray-800">
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td hidden class="px-6 py-4">
+                                                    @item.IdServicio
+                                                </td>
+                                                <td class="px-6 py-4">
+                                                    @item.Nombre
+                                                </td>
+                                                <td class="px-6 py-4">
+                                                    @item.Monto
+                                                </td>
+                                                <td class="px-6 py-4">
+                                                    <div class="ps-3">
+                                                        @{
+                                                            var IdMonedaFormat = @item.IdMoneda.Substring(0, 4) + "-" + @item.IdMoneda.Substring(4, 4);
+                                                        }
+                                                        <div id="IdMoneda_@item.IdServicio" class="m-2">@HtmlElement.TailwindBadge(Html, "blue", "fa-solid fa-phone", IdMonedaFormat, "")</div>
+                                                        
+                                                    </div>
+                                                </td>
+                                                <td class="px-6 py-4">
+                                                    @if (item.Eliminado != false)
+                                                    {
+                                                        @HtmlElement.TailwindBadge(Html, "red", "fa-solid fa-ban", "Inactivo", "")
+                                                    }
+                                                    else
+                                                    {
+                                                        @HtmlElement.TailwindBadge(Html, "green", "fa-solid fa-check", "Activo", "")
+                                                    }
+                                                </td>
+                                                <td class="px-6 py-4">
+                                                    @if (item.Eliminado != false)
+                                                    {
+                                                        @HtmlElement.TailwindTableButton(Html, "green", "", "fa-solid fa-check", "", "btn", "Activar Servicio", $"/Servicio/CambiarEstado/{item.IdServicio}/{false}/{item.Nombre.Replace(" ", "-")}")
+                                                    }
+                                                    else
+                                                    {
+                                                        @HtmlElement.TailwindTableButton(Html, "red", "", "fa-solid fa-ban", "", "btn", "Inactivar Servicio", $"/Servicio/CambiarEstado/{item.IdServicio}/{true}/{item.Nombre}")
+                                                    }
+
+                                                    @HtmlElement.TailwindTableButton(Html, "blue", "", "fa-solid fa-pencil", "", "btn", "Editar Servicio", $"/Servicio/Editar/{item.IdServicio}")
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div> <!-- Agrega esta línea -->
+                        </div>
+                    }
+
+                    
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
