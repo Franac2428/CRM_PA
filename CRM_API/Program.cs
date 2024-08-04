@@ -3,7 +3,12 @@ using CRM_API.Services.Interfaces;
 using DataAccess.Implementations;
 using DataAccess.Interfaces;
 using Entities.Entities;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +21,54 @@ builder.Services.AddSwaggerGen();
 
 //Context:
 builder.Services.AddDbContext<CrmContext>();
+builder.Services.AddDbContext<AuthDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("AuthConn")));
+
+//Identity
+builder.Services.AddIdentityCore<IdentityUser>()
+    .AddRoles<IdentityRole>()
+    .AddTokenProvider<DataProtectorTokenProvider<IdentityUser>>("CRM")
+    .AddEntityFrameworkStores<AuthDbContext>()
+    .AddDefaultTokenProviders();
+
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    options.Password.RequiredLength = 10;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireDigit = false;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireUppercase = false;
+
+});
+
+//Json Web Token
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+    .AddJwtBearer(options =>
+    {
+        options.SaveToken = true;
+        options.RequireHttpsMetadata = false;
+        options.TokenValidationParameters = new TokenValidationParameters()
+        {
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ValidAudience = builder.Configuration["JWT:ValidAudience"],
+            ValidIssuer = builder.Configuration["JWT:ValidIssuer"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"]))
+        };
+    });
+
+
+
+
+
+
+
+
+
 
 //Unidad Trabajo:
 builder.Services.AddScoped<IUnidadTrabajo, UnidadTrabajo>();
@@ -44,6 +97,9 @@ builder.Services.AddScoped<ISaldoServices, SaldoServices>();
 builder.Services.AddScoped<ITipoMonedaServices, TipoMonedaServices>();
 builder.Services.AddScoped<IMovimientoServices, MovimientoServices>();
 builder.Services.AddScoped<ITipoMovimientoServices, TipoMovimientoServices>();
+
+//IDENTITY
+builder.Services.AddScoped<ITokenService, TokenService>();
 
 var app = builder.Build();
 

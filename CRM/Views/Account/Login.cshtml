@@ -1,0 +1,65 @@
+﻿@using CRM.APIModels
+@{
+    Layout = null;
+}
+
+@model LoginModel
+
+<!DOCTYPE html>
+<html class="dark">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión</title>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <link href="~/css/output.css" rel="stylesheet">
+    <script src="~/js/Main.js"></script>
+    <link href="~/css/custom.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer">
+</head>
+<body class="dark:bg-gray-900">
+    <section class="flex justify-center items-center h-screen dark:bg-gray-900">
+        <div class="bg-white dark:bg-gray-800 shadow-md rounded-lg p-8 max-w-sm w-full">
+            <h1 class="text-xl font-bold mb-4 text-center text-gray-900 dark:text-white">Iniciar Sesión</h1>
+            <form class="space-y-4" method="POST" asp-action="OnLogin">
+                <div class="block mb-2 text-md font-medium text-gray-900 dark:text-white">
+                    Nombre:
+                </div>
+                @Html.TextBoxFor(model => model.Username, new { @class = "bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500", placeholder = "Nombre de usuario", required = "required" })
+                @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-red-600 dark:text-red-500" })
+                <span asp-validation-for="Username" class="text-red-600"></span>                
+                
+                <div class="block mb-2 text-md font-medium text-gray-900 dark:text-white">
+                    Contraseña:
+                </div>
+                @Html.PasswordFor(model => model.Password, new { @class = "bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500", placeholder = "Contraseña", required = "required" })
+                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-red-600 dark:text-red-500" })
+                <span asp-validation-for="Password" class="text-red-600"></span>
+                <br />
+               <div class="mt-3">
+                    <button type="submit" class="w-full px-5 py-2.5 text-sm font-medium text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                        <i class="fa-solid fa-sign-in-alt"></i> Ingresar
+                    </button>
+
+                </div>
+                <br />
+                @if (TempData["LoginError"] != null)
+                {
+                    @HtmlElement.TailwindAlert(Html, "Advertencia", TempData["LoginError"].ToString(), "yellow", "fa-solid fa fa-exclamation-triangle", "")
+                }
+
+                @if (TempData["Logout"] != null)
+                {
+                    @HtmlElement.TailwindAlert(Html, "Información", TempData["Logout"].ToString(), "green", "fa-solid fa fa-check", "")
+                }
+
+            </form>
+
+
+            
+        </div>
+    </section>
+
+    <button id="themeButton" onclick="CambiarTemaColor()" class="fixed bottom-4 right-4 z-50 bg-white rounded-full p-2 dark:bg-gray-900 dark:text-white"></button>
+
+</body>
+</html>

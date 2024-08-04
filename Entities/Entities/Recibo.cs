@@ -15,7 +15,7 @@ public partial class Recibo
 
     public DateTime? FechaCreacion { get; set; }
 
-    public int? IdUsuarioCreacion { get; set; }
+    public string? IdUsuarioCreacion { get; set; }
 
     public bool? Anulado { get; set; }
 

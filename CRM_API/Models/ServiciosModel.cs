@@ -11,11 +11,11 @@
 
         public DateTime? FechaCreacion { get; set; }
 
-        public int? IdUsuarioCreacion { get; set; }
+        public string? IdUsuarioCreacion { get; set; }
 
         public DateTime? FechaModificacion { get; set; }
 
-        public int? IdUsuarioModificacion { get; set; }
+        public string? IdUsuarioModificacion { get; set; }
 
         public int? IdMoneda { get; set; }
 

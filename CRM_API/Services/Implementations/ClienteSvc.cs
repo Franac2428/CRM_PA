@@ -29,7 +29,13 @@ namespace CRM_API.Services.Implementations
                 Celular = model.Celular,
                 IdTipoIdentificacion = model.IdTipoIdentificacion,
                 Identificacion = model.Identificacion,
-                Eliminado = model.Eliminado
+                Eliminado = model.Eliminado,
+                IdServicio = model.IdServicio,
+                IdTipoPlan = model.IdTipoPlan,
+                IdUsuarioCreacion = model.IdUsuarioCreacion,
+                IdUsuarioModificacion = model.IdUsuarioModificacion,
+                FechaCreacion = model.FechaCreacion,
+                FechaModificacion = model.FechaModificacion
             };
 
             return entity;
@@ -46,7 +52,13 @@ namespace CRM_API.Services.Implementations
                 Celular = model.Celular,
                 IdTipoIdentificacion = model.IdTipoIdentificacion,
                 Identificacion = model.Identificacion,
-                Eliminado = model.Eliminado
+                Eliminado = model.Eliminado,
+                IdServicio = model.IdServicio,
+                IdTipoPlan = model.IdTipoPlan,
+                IdUsuarioCreacion = model.IdUsuarioCreacion,
+                IdUsuarioModificacion = model.IdUsuarioModificacion,
+                FechaCreacion = model.FechaCreacion,
+                FechaModificacion = model.FechaModificacion
             };
 
             return entity;

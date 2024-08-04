@@ -21,7 +21,23 @@ public partial class Cliente
 
     public bool? Eliminado { get; set; }
 
+    public int? IdTipoPlan { get; set; }
+
+    public int? IdServicio { get; set; }
+
+    public DateTime? FechaCreacion { get; set; }
+
+    public string? IdUsuarioCreacion { get; set; }
+
+    public DateTime? FechaModificacion { get; set; }
+
+    public string? IdUsuarioModificacion { get; set; }
+
+    public virtual Servicio? IdServicioNavigation { get; set; }
+
     public virtual TipoIdentificacion? IdTipoIdentificacionNavigation { get; set; }
+
+    public virtual TipoPlan? IdTipoPlanNavigation { get; set; }
 
     public virtual ICollection<PagosGenerado> PagosGenerados { get; set; } = new List<PagosGenerado>();
 

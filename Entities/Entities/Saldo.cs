@@ -15,5 +15,5 @@ public partial class Saldo
 
     public virtual Cliente? IdClienteNavigation { get; set; }
 
-    public virtual TipoMoneda? IdMonedaNavigation { get; set; }
+    public virtual TipoMonedum? IdMonedaNavigation { get; set; }
 }

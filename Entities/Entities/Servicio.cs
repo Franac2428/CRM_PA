@@ -13,17 +13,23 @@ public partial class Servicio
 
     public DateTime? FechaCreacion { get; set; }
 
-    public int? IdUsuarioCreacion { get; set; }
+    public string? IdUsuarioCreacion { get; set; }
 
     public DateTime? FechaModificacion { get; set; }
 
-    public int? IdUsuarioModificacion { get; set; }
+    public string? IdUsuarioModificacion { get; set; }
 
     public int? IdMoneda { get; set; }
 
     public bool? Eliminado { get; set; }
 
-    public virtual TipoMoneda? IdMonedaNavigation { get; set; }
+    public virtual ICollection<Cliente> Clientes { get; set; } = new List<Cliente>();
+
+    public virtual TipoMonedum? IdMonedaNavigation { get; set; }
+
+    public virtual AspNetUser? IdUsuarioCreacionNavigation { get; set; }
+
+    public virtual AspNetUser? IdUsuarioModificacionNavigation { get; set; }
 
     public virtual ICollection<Pago> Pagos { get; set; } = new List<Pago>();
 

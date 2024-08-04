@@ -17,7 +17,7 @@ builder.Services.AddSession(options =>
 builder.Services.AddHttpClient<IServiceRepository, ServiceRepository>();
 builder.Services.AddScoped<IServiceRepository, ServiceRepository>();
 builder.Services.AddScoped<IClienteHelper, ClienteHelper>();
-
+builder.Services.AddScoped<ILoginHelper, LoginHelper>();
 
 
 
@@ -37,6 +37,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Account}/{action=Login}/{id?}");
 
 app.Run();

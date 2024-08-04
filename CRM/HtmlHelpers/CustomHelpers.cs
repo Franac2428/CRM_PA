@@ -223,16 +223,29 @@ public static class CustomHelpers
         return new HtmlContentBuilder().AppendHtml(tb);
     }
 
-    public static IHtmlContent TailwindAlert(this IHtmlHelper helper, string title, string message, string color,string icon, string additionalClass = "")
+    public static IHtmlContent TailwindAlert(this IHtmlHelper helper, string title, string message, string color, string icon, string additionalClass = "")
     {
-        TagBuilder tb = new TagBuilder("div");
-        var html = $"<div class='flex items-center p-4 mb-4 text-sm text-{color}-800 rounded-lg bg-{color}-200 dark:bg-{color}-800 dark:text-{color}-200 {additionalClass}' role='alert'>" +
-                   $"<i class='{icon}  mr-2'></i>" +
-                   $"<span class='font-medium mr-1'>{title}:</span>" +
-                   $"{message}</div>";
-        tb.InnerHtml.AppendHtml(html);
-        return new HtmlContentBuilder().AppendHtml(tb);
+        var html = $"<div class='flex items-start p-4 mb-4 text-sm text-{color}-800 rounded-lg bg-{color}-200 dark:bg-{color}-800 dark:text-{color}-200 {additionalClass}' role='alert'>" +
+                   $"<div class='flex flex-col'>" +
+                   $"<span class='font-medium'><i class='{icon} mr-2'></i>{title}</span>" +
+                   $"<span class='mt-1'>{message}</span>" +
+                   $"</div></div>";
+
+        return new HtmlContentBuilder().AppendHtml(html);
     }
+
+    public static IHtmlContent TailwindWelcomeAlert(this IHtmlHelper helper, string title, string message, string color, string icon, string additionalClass = "")
+    {
+        var html = $"<div class='flex items-start p-4 mb-4 text-lg text-{color}-800 rounded-lg bg-{color}-200 dark:bg-{color}-800 dark:text-{color}-200 {additionalClass}' role='alert'>" +
+                   $"<div class='flex flex-col'>" +
+                   $"<span class='font-medium'><i class='{icon} mr-2'></i>{title}</span>" +
+                   $"<br>" +
+                   $"<span class='mt-1'><i class='fa-solid fa-user mr-2'></i>{message}</span>" +
+                   $"</div></div>";
+
+        return new HtmlContentBuilder().AppendHtml(html);
+    }
+
 
     public static IHtmlContent ActionLink(this IHtmlHelper helper, string color, string innerText, string action, string controller, string icon, string id)
     {

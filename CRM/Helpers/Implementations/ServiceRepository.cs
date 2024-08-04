@@ -27,7 +27,8 @@ namespace CRM.Helpers.Implementations
         }
         public HttpResponseMessage PostResponse(string url, object model)
         {
-            return Client.PostAsJsonAsync(url, model).Result;
+            var result = Client.PostAsJsonAsync(url, model);
+            return result.Result;
         }
         public HttpResponseMessage DeleteResponse(string url)
         {

@@ -20,5 +20,13 @@ namespace CRM.ViewModels
         public string? Identificacion { get; set; }
 
         public bool? Eliminado { get; set; }
+
+        public int? IdServicio { get; set; }
+
+        public int? IdTipoPlan { get; set; }
+        public DateTime? FechaCreacion { get; set; }
+        public DateTime? FechaModificacion { get; set; }
+        public string? IdUsuarioCreacion { get; set; }
+        public string? IdUsuarioModificacion { get; set; }
     }
 }

@@ -1,5 +1,7 @@
-﻿@{
+﻿@using Newtonsoft.Json;
+@{
     bool isDarkTheme = false;
+    var u = JsonConvert.DeserializeObject(ViewBag.UsuarioEnSesion);
 }
 
 <nav class="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
@@ -62,10 +64,11 @@
                             <div class="px-4 py-3" role="none">
                                 <input id="hdIdUsuarioSesion" hidden value="" />
 
-                                <p class="text-sm text-gray-900 dark:text-white" role="none">
-
+                                <p class="text-sm text-center text-gray-900 dark:text-white" role="none">
+                                    <strong>@u.username</strong>
                                 </p>
                                 <p class="text-sm font-medium text-gray-900 truncate dark:text-gray-300" role="none">
+                                    @u.email
                                 </p>
                             </div>
                             <ul class="py-1" role="none">

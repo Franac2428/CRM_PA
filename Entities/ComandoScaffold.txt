@@ -1,0 +1,1 @@
+﻿Scaffold-DbContext "Server=localhost\SQLExpress;Database=CRM;Integrated Security=True;Trusted_Connection=True;TrustServerCertificate=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Entities -Force
