@@ -14,9 +14,9 @@ namespace CRM.Controllers
         IServiciosHelper ServicioHelper;
         private readonly IHttpContextAccessor _HttpCA;
 
-        public ServiciosController(IServiciosHelper ServicioHelper, IHttpContextAccessor httpCA)
+        public ServiciosController(IServiciosHelper servicioHelper, IHttpContextAccessor httpCA)
         {
-            ServicioHelper = ServicioHelper;
+            ServicioHelper = servicioHelper;
             _HttpCA = httpCA;
         }
 

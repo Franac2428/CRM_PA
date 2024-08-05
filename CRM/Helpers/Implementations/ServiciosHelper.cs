@@ -17,7 +17,7 @@ namespace CRM.Helpers.Interfaces
         
         public List<ServiciosViewModel> GetServicios()
         {
-            HttpResponseMessage response = ServiceRepository.GetResponse("api/Servicio");
+            HttpResponseMessage response = ServiceRepository.GetResponse("api/servicios");
             List<ServiciosViewModel> listado = new List<ServiciosViewModel>();
             List<ServiciosModel> result = new List<ServiciosModel>();
 
@@ -59,7 +59,7 @@ namespace CRM.Helpers.Interfaces
 
         public ServiciosViewModel AddServicio(ServiciosViewModel Servicio)
         {
-            HttpResponseMessage response = ServiceRepository.PostResponse("api/Servicio", ConvertirModel(Servicio));
+            HttpResponseMessage response = ServiceRepository.PostResponse("api/servicios", ConvertirModel(Servicio));
 
             if(response != null)
             {
@@ -70,7 +70,7 @@ namespace CRM.Helpers.Interfaces
 
         public ServiciosViewModel GetServicioById(int id)
         {
-            HttpResponseMessage response = ServiceRepository.GetResponse($"api/Servicio/{id}");
+            HttpResponseMessage response = ServiceRepository.GetResponse($"api/servicios/{id}");
             ServiciosModel result = new ServiciosModel();
 
             if (response != null)
@@ -88,7 +88,7 @@ namespace CRM.Helpers.Interfaces
 
         public ServiciosViewModel UpdateServicio(ServiciosViewModel Servicio)
         {
-            HttpResponseMessage response = ServiceRepository.PutResponse($"api/Servicio/{Servicio.IdServicio}", ConvertirModel(Servicio));
+            HttpResponseMessage response = ServiceRepository.PutResponse($"api/servicios/{Servicio.IdServicio}", ConvertirModel(Servicio));
 
             if (response != null)
             {

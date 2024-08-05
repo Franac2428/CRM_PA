@@ -20,9 +20,9 @@ namespace CRM.ViewModels
 
 		public string? IdUsuarioModificacion { get; set; }
 
-		public string? IdMoneda { get; set; }
+		public int? IdMoneda { get; set; }
 
-		public string? Eliminado { get; set; }
+		public bool? Eliminado { get; set; }
 
 	}
 }
