@@ -61,62 +61,35 @@
                                             <span asp-validation-for="Nombre" class="text-red-600"></span>
                                         </div>
 
-                                        <div class="col-span-1">
-                                            <div class="block mb-2 text-md font-medium text-gray-900 dark:text-white">
-                                                Correo
-                                            </div>
-                                            @Html.TextBoxFor(model => model.Monto, new { @class = "bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500", placeholder = "Nombre del Servicio", required = "required" })
-                                            <span asp-validation-for="Nombre" class="text-red-600"></span>
-                                        </div>
-                                    </div>
-
                                     <div class="grid gap-4 mb-4 grid-cols-1 md:grid-cols-4">
                                       
 
-                                        <div class="col-span-1">
-                                            <div class="block mb-2 text-md font-medium text-gray-900 dark:text-white">
-                                                Tipo Identificación
-                                            </div>
-                                            @if (tiOptions != null)
-                                            {
-                                                @Html.DropDownListFor(
-                                                         model => model.IdMoneda,
-                                                         new SelectList(tiOptions, "IdTipoMoneda", "Nombre"),
-                                                         "Seleccione un Tipo",
-                                                         new { @class = "bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500", required = "required" }
-                                                         )
-                                            }
-                                            else
-                                            {
-                                                <span class="text-red-600">No hay datos...</span>
-                                            }
-                                            <span asp-validation-for="IdMoneda" class="text-red-600"></span>
-                                        </div>
+                    
 
                                         <div class="col-span-1">
                                             <div class="block mb-2 text-md font-medium text-gray-900 dark:text-white">
-                                                Identificación
+                                                Monto
                                             </div>
-                                            @Html.TextBoxFor(model => model.IdMoneda, new { @class = "bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500", placeholder = "Identificación", required = "required" })
+                                            @Html.TextBoxFor(model => model.IdMoneda, new { @class = "bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500", placeholder = "000.000", required = "required" })
                                             <span asp-validation-for="Nombre" class="text-red-600"></span>
                                         </div>
 
                                         <div class="col-span-1">
                                             <div class="block mb-2 text-md font-medium text-gray-900 dark:text-white">
-                                                Tipo de Plan
+                                                Tipo de Moneda
                                             </div>
                                             @if (tpOptions != null)
                                             {
                                                 @Html.DropDownListFor(
                                                          model => model.IdMoneda,
-                                                         new SelectList(tpOptions, "IdTipoPlan", "Nombre"),
+                                                         new SelectList(tpOptions, "IdTipoMoneda", "Nombre"),
                                                          "--Seleccione--",
                                                          new { @class = "bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500", required = "required" }
                                                          )
                                             }
                                             else
                                             {
-                                                <span class="text-red-600">Debe seleccionar un tipo de identificación</span>
+                                                <span class="text-red-600">Debe seleccionar un tipo de Moneda</span>
                                             }
                                             <span asp-validation-for="IdMoneda" class="text-red-600"></span>
                                         </div>
