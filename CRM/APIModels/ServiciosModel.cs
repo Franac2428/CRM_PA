@@ -2,7 +2,7 @@
 
 namespace CRM.APIModels
 {
-    public class ServicioModel
+    public class ServiciosModel
     {
         public int IdServicio { get; set; }
 

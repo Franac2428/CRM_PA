@@ -37,5 +37,5 @@ public partial class Pago
 
     public virtual TipoEstadoPago? IdEstadoPagoNavigation { get; set; }
 
-    public virtual Servicio? IdServicioNavigation { get; set; }
+    public virtual Servicios? IdServicioNavigation { get; set; }
 }

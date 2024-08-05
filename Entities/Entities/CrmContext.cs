@@ -43,7 +43,7 @@ public partial class CrmContext : DbContext
 
     public virtual DbSet<Saldo> Saldos { get; set; }
 
-    public virtual DbSet<Servicio> Servicios { get; set; }
+    public virtual DbSet<Servicios> Servicios { get; set; }
 
     public virtual DbSet<TipoEstadoMovimiento> TipoEstadoMovimientos { get; set; }
 
@@ -290,7 +290,7 @@ public partial class CrmContext : DbContext
                 .HasConstraintName("FK_TipoMoneda_Saldos");
         });
 
-        modelBuilder.Entity<Servicio>(entity =>
+        modelBuilder.Entity<Servicios>(entity =>
         {
             entity.HasKey(e => e.IdServicio).HasName("PK__Servicio__2DCCF9A2B630BE6B");
 

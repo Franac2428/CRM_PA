@@ -2,7 +2,7 @@
 
 namespace CRM.ViewModels
 {
-    public class ServicioViewModel
+    public class ServiciosViewModel
     {
         public int IdServicio { get; set; }
 

@@ -6,25 +6,25 @@ using Newtonsoft.Json;
 
 namespace CRM.Helpers.Interfaces
 {
-    public class ServicioHelper : IServicioHelper
+    public class ServiciosHelper : IServiciosHelper
     {
         IServiceRepository ServiceRepository;
 
-        public ServicioHelper(IServiceRepository service)
+        public ServiciosHelper(IServiceRepository service)
         {
             this.ServiceRepository = service;
         }
         
-        public List<ServicioViewModel> GetServicios()
+        public List<ServiciosViewModel> GetServicios()
         {
             HttpResponseMessage response = ServiceRepository.GetResponse("api/Servicio");
-            List<ServicioViewModel> listado = new List<ServicioViewModel>();
-            List<ServicioModel> result = new List<ServicioModel>();
+            List<ServiciosViewModel> listado = new List<ServiciosViewModel>();
+            List<ServiciosModel> result = new List<ServiciosModel>();
 
             if(response != null)
             {
                 var content = response.Content.ReadAsStringAsync().Result;
-                result = JsonConvert.DeserializeObject<List<ServicioModel>>(content);
+                result = JsonConvert.DeserializeObject<List<ServiciosModel>>(content);
             }
 
             foreach(var item in result)
@@ -57,7 +57,7 @@ namespace CRM.Helpers.Interfaces
 
         }
 
-        public ServicioViewModel AddServicio(ServicioViewModel Servicio)
+        public ServiciosViewModel AddServicio(ServiciosViewModel Servicio)
         {
             HttpResponseMessage response = ServiceRepository.PostResponse("api/Servicio", ConvertirModel(Servicio));
 
@@ -65,28 +65,28 @@ namespace CRM.Helpers.Interfaces
             {
                 var content = response.Content.ReadAsStringAsync().Result;
             }
-            return new ServicioViewModel();
+            return new ServiciosViewModel();
         }
 
-        public ServicioViewModel GetServicioById(int id)
+        public ServiciosViewModel GetServicioById(int id)
         {
             HttpResponseMessage response = ServiceRepository.GetResponse($"api/Servicio/{id}");
-            ServicioModel result = new ServicioModel();
+            ServiciosModel result = new ServiciosModel();
 
             if (response != null)
             {
                 var content = response.Content.ReadAsStringAsync().Result;
-                result = JsonConvert.DeserializeObject<ServicioModel>(content);
+                result = JsonConvert.DeserializeObject<ServiciosModel>(content);
                 return ConvertirModel(result);
             }
             else
             {
-                return new ServicioViewModel();
+                return new ServiciosViewModel();
             }
 
         }
 
-        public ServicioViewModel UpdateServicio(ServicioViewModel Servicio)
+        public ServiciosViewModel UpdateServicio(ServiciosViewModel Servicio)
         {
             HttpResponseMessage response = ServiceRepository.PutResponse($"api/Servicio/{Servicio.IdServicio}", ConvertirModel(Servicio));
 
@@ -94,14 +94,14 @@ namespace CRM.Helpers.Interfaces
             {
                 var content = response.Content.ReadAsStringAsync().Result;
             }
-            return new ServicioViewModel();
+            return new ServiciosViewModel();
         }
 
 
         #region [CONVERTIR MODELS]
-        public ServicioViewModel ConvertirModel(ServicioModel model)
+        public ServiciosViewModel ConvertirModel(ServiciosModel model)
         {
-            return new ServicioViewModel
+            return new ServiciosViewModel
             {
                 IdServicio = model.IdServicio,
                 Nombre = model.Nombre,
@@ -116,9 +116,9 @@ namespace CRM.Helpers.Interfaces
         }
 		
 
-		public ServicioModel ConvertirModel(ServicioViewModel model)
+		public ServiciosModel ConvertirModel(ServiciosViewModel model)
         {
-            return new ServicioModel
+            return new ServiciosModel
             {
 				IdServicio = model.IdServicio,
 				Nombre = model.Nombre,

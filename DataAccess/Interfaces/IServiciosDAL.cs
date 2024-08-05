@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Interfaces
 {
-    public interface IServiciosDAL : IDALGenerico<Servicio>
+    public interface IServiciosDAL : IDALGenerico<Servicios>
     {
     }
 }
