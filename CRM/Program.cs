@@ -18,6 +18,7 @@ builder.Services.AddHttpClient<IServiceRepository, ServiceRepository>();
 builder.Services.AddScoped<IServiceRepository, ServiceRepository>();
 builder.Services.AddScoped<IClienteHelper, ClienteHelper>();
 builder.Services.AddScoped<IServiciosHelper, ServiciosHelper>();
+builder.Services.AddScoped<IMovimientosHelper, MovimientoHelper>();
 builder.Services.AddScoped<ILoginHelper, LoginHelper>();
 
 
