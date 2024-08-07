@@ -4,10 +4,10 @@ namespace CRM_API.Services.Interfaces
 {
     public interface IMovimientoServices
     {
-        List<MovimientoModel> GetMovimiento();
+        IEnumerable<MovimientoModel> GetMovimiento();
         bool Add(MovimientoModel movimiento);
         bool Update(MovimientoModel movimiento);
-        bool Delete(int id);
+        bool Delete(MovimientoModel movimiento);
         MovimientoModel GetById(int id);
     }
 }

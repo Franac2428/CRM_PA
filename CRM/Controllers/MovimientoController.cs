@@ -206,12 +206,12 @@ namespace CRM.Controllers
                     model.IdUsuarioCreacion = usuarioModel.Id;
 
                     MovimientosHelper.AddSalEnt(model);
-                    TempData["NewIDMov"] = model.IdMovimiento;
-                    return Redirect("/Movimiento/Index");
+                    TempData["NewMovimieno"] = "Se agrego";
+                    return Redirect("/Movimiento/IndexEnt");
                 }
                 else
                 {
-                    return Redirect("/Movimiento/Index");
+                    return Redirect("/Movimiento/IndexEnt");
 
                 }
             }
@@ -238,11 +238,11 @@ namespace CRM.Controllers
                     model.FechaModificacion = DateTime.Now;
 
                     MovimientosHelper.Update(model);
-                    return Redirect("/Movimiento/Index");
+                    return Redirect("/Movimiento/IndexEnt");
                 }
                 else
                 {
-                    return Redirect("/Movimiento/Index");
+                    return Redirect("/Movimiento/IndexEnt");
 
                 }
             }

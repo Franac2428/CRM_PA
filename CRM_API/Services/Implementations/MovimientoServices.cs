@@ -1,8 +1,10 @@
 ﻿using CRM_API.Model;
 using CRM_API.Models;
 using CRM_API.Services.Interfaces;
+using DataAccess.Implementations;
 using DataAccess.Interfaces;
 using Entities.Entities;
+using System.ComponentModel;
 
 namespace CRM_API.Services.Implementations
 {
@@ -10,14 +12,16 @@ namespace CRM_API.Services.Implementations
     {
         IUnidadTrabajo Unidad;
 
+        private IMovimientoDAL _DAL;
+
         public MovimientoServices(IUnidadTrabajo unidad)
         {
             this.Unidad = unidad;
         }
 
-        MovimientoModel Convertir(Movimiento movimiento)
+        private MovimientoModel Convertir(Movimiento movimiento)
         {
-            return new MovimientoModel
+            MovimientoModel entity = new MovimientoModel
             {
                 IdMovimiento = movimiento.IdMovimiento,
                 IdTipoMovimiento = movimiento.IdTipoMovimiento,
@@ -28,13 +32,14 @@ namespace CRM_API.Services.Implementations
                 FechaModificacion = movimiento.FechaModificacion,
                 IdUsuarioModificacion = movimiento.IdUsuarioModificacion,
                 Comentario = movimiento.Comentario,
-                Imagen = movimiento.Imagen,
+                Imagen = movimiento.Imagen
             };
+            return entity;
         }
 
-        Movimiento Convertir(MovimientoModel movimiento)
+        private Movimiento Convertir(MovimientoModel movimiento)
         {
-            return new Movimiento
+            Movimiento entity = new Movimiento
             {
                 IdMovimiento = movimiento.IdMovimiento,
                 IdTipoMovimiento = movimiento.IdTipoMovimiento,
@@ -45,40 +50,31 @@ namespace CRM_API.Services.Implementations
                 FechaModificacion = movimiento.FechaModificacion,
                 IdUsuarioModificacion = movimiento.IdUsuarioModificacion,
                 Comentario = movimiento.Comentario,
-                Imagen = movimiento.Imagen,
+                Imagen = movimiento.Imagen
             };
+            return entity;
         }
 
         public bool Add(MovimientoModel movimiento)
         {
-            try
-            {
-                Unidad.MovimientoDAL.Add(Convertir(movimiento));
-                return Unidad.Complete();
-            }
-            catch (Exception)
-            {
-
-                return false;
-            }
+            return Unidad.MovimientoDAL.Add(Convertir(movimiento));
         }
 
-        public bool Delete(int id)
+        public bool Delete(MovimientoModel movimiento)
         {
-            var movimiento = new Movimiento { IdMovimiento = id };
-            Unidad.MovimientoDAL.Remove(movimiento);
-            return Unidad.Complete();
+            return Unidad.MovimientoDAL.Remove(Convertir(movimiento));
+
         }
 
-        public List<MovimientoModel> GetMovimiento()
+        public IEnumerable<MovimientoModel> GetMovimiento()
         {
             var movimiento = Unidad.MovimientoDAL.GetAll();
 
             List<MovimientoModel> movimientoModels = new List<MovimientoModel>();
 
-            foreach (var movimientos in movimiento)
+            foreach (var item in movimiento)
             {
-                movimientoModels.Add(Convertir(movimientos));
+                movimientoModels.Add(Convertir(item));
             }
 
             return movimientoModels;
@@ -91,8 +87,8 @@ namespace CRM_API.Services.Implementations
 
         public bool Update(MovimientoModel movimiento)
         {
-            Unidad.MovimientoDAL.Update(Convertir(movimiento));
-            return Unidad.Complete();
+            return Unidad.MovimientoDAL.Update(Convertir(movimiento));
+
         }
     }
 }

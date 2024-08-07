@@ -42,7 +42,7 @@ namespace CRM_API.Controllers
         }
 
         // PUT api/<MovimientoController>/5
-        [HttpPut]
+        [HttpPut("{id}")]
         public MovimientoModel Put([FromBody] MovimientoModel movimiento)
         {
             Movimiento.Update(movimiento);
@@ -51,11 +51,10 @@ namespace CRM_API.Controllers
 
         // DELETE api/<MovimientoController>/5
         [HttpDelete("{id}")]
-        public ActionResult Delete(int id)
+        public void Delete(int id)
         {
-            var result = Movimiento.Delete(id);
-
-            return new JsonResult(result);
+            MovimientoModel model = new MovimientoModel { IdMovimiento = id };
+            Movimiento.Delete(model);
         }
     }
 }

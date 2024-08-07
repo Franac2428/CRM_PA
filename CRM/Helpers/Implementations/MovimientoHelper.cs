@@ -16,7 +16,7 @@ namespace CRM.Helpers.Implementations
             ServiceRepository = serviceRepository;
         }
 
-        MovimientosViewModel Convertir(MovimientosModel movimientos)
+        public MovimientosViewModel Convertir(MovimientosModel movimientos)
         {
             return new MovimientosViewModel
             {
@@ -28,7 +28,7 @@ namespace CRM.Helpers.Implementations
             };
         }
 
-        MovimientosModel Convertir(MovimientosViewModel movimientos)
+        public MovimientosModel Convertir(MovimientosViewModel movimientos)
         {
             return new MovimientosModel
             {
