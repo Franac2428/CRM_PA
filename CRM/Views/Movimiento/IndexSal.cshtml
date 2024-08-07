@@ -58,13 +58,13 @@
                                                 IdMovimiento
                                             </th>
                                             <th scope="col" class="px-6 py-3">
-                                                Estado Movimiento
-                                            </th>
-                                            <th scope="col" class="px-6 py-3">
                                                 Monto
                                             </th>
                                             <th scope="col" class="px-6 py-3">
                                                 Comentario
+                                            </th>
+                                            <th scope="col" class="px-6 py-3">
+                                                Estado Movimiento
                                             </th>
                                             <th scope="col" class="px-6 py-3">
                                                 Acciones
@@ -79,9 +79,6 @@
                                                     @item.IdMovimiento
                                                 </td>
                                                 <td class="px-6 py-4">
-                                                    @item.IdEstadoMovimiento
-                                                </td>
-                                                <td class="px-6 py-4">
                                                     @item.Monto
                                                 </td>
                                                 <td class="px-6 py-4">
@@ -90,15 +87,15 @@
                                                 <td class="px-6 py-4">
                                                     @if (item.IdEstadoMovimiento == 1)
                                                     {
-                                                        @HtmlElement.TailwindBadge(Html, "yellow", "fa-solid fa-exclamation", "Pendiente", "")
+                                                        @HtmlElement.TailwindBadge(Html, "yellow", "", "Pendiente", "")
                                                     }
                                                     else@if (item.IdEstadoMovimiento == 2)
                                                     {
-                                                        @HtmlElement.TailwindBadge(Html, "green", "fa-solid fa-check", "Pagado", "")
+                                                        @HtmlElement.TailwindBadge(Html, "green", "", "Pagado", "")
                                                     }
                                                     else@if (item.IdEstadoMovimiento == 3)
                                                     {
-                                                        @HtmlElement.TailwindBadge(Html, "reed", "fa-solid fa-times", "Anulado", "")
+                                                        @HtmlElement.TailwindBadge(Html, "reed", "", "Anulado", "")
                                                     }
                                                 </td>
                                             </tr>
