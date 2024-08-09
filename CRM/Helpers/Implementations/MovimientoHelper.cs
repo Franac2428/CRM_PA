@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using CRM.APIModels;
-using CRM.Helpers.Interfaces;
 using CRM.ViewModels;
 using Entities.Entities;
 using Newtonsoft.Json;
 
-namespace CRM.Helpers.Implementations
+namespace CRM.Helpers.Interfaces
 {
     public class MovimientoHelper : IMovimientosHelper
     {
@@ -13,7 +12,7 @@ namespace CRM.Helpers.Implementations
 
         public MovimientoHelper(IServiceRepository serviceRepository)
         {
-            ServiceRepository = serviceRepository;
+            this.ServiceRepository = serviceRepository;
         }
 
         public MovimientosViewModel Convertir(MovimientosModel movimientos)
@@ -24,7 +23,12 @@ namespace CRM.Helpers.Implementations
                 IdTipoMovimiento = movimientos.IdTipoMovimiento,
                 IdEstadoMovimiento = movimientos.IdEstadoMovimiento,
                 Monto = movimientos.Monto,
-                Comentario = movimientos.Comentario
+                FechaCreacion = movimientos.FechaCreacion,
+                IdUsuarioCreacion = movimientos.IdUsuarioCreacion,
+                FechaModificacion = movimientos.FechaModificacion,
+                IdUsuarioModificacion = movimientos.IdUsuarioModificacion,
+                Comentario = movimientos.Comentario,
+                Imagen = movimientos.Imagen
             };
         }
 
@@ -36,13 +40,18 @@ namespace CRM.Helpers.Implementations
                 IdTipoMovimiento = movimientos.IdTipoMovimiento,
                 IdEstadoMovimiento = movimientos.IdEstadoMovimiento,
                 Monto = movimientos.Monto,
-                Comentario = movimientos.Comentario
+                FechaCreacion = movimientos.FechaCreacion,
+                IdUsuarioCreacion = movimientos.IdUsuarioCreacion,
+                FechaModificacion = movimientos.FechaModificacion,
+                IdUsuarioModificacion = movimientos.IdUsuarioModificacion,
+                Comentario = movimientos.Comentario,
+                Imagen = movimientos.Imagen
             };
         }
 
         public MovimientosViewModel AddSalEnt(MovimientosViewModel movimientos)
         {
-            HttpResponseMessage response = ServiceRepository.PostResponse("api/Movimiento", Convertir(movimientos));
+            HttpResponseMessage response = ServiceRepository.PostResponse("api/movimiento", Convertir(movimientos));
 
             if (response != null)
             {
@@ -53,7 +62,7 @@ namespace CRM.Helpers.Implementations
 
         public MovimientosViewModel GetMovimientoByID(int id)
         {
-            HttpResponseMessage response = ServiceRepository.GetResponse($"api/Movimiento/{id}");
+            HttpResponseMessage response = ServiceRepository.GetResponse($"api/movimiento/{id}");
             MovimientosModel result = new MovimientosModel();
 
             if (response != null)
@@ -88,9 +97,9 @@ namespace CRM.Helpers.Implementations
             return listado;
         }
 
-        public MovimientosViewModel Update(MovimientosViewModel movimientoss)
+        public MovimientosViewModel UpdateMovimiento(MovimientosViewModel movimientos)
         {
-            HttpResponseMessage response = ServiceRepository.PutResponse($"api/Movimiento/{movimientoss.IdMovimiento}", Convertir(movimientoss));
+            HttpResponseMessage response = ServiceRepository.PutResponse($"api/movimiento/{movimientos.IdMovimiento}", Convertir(movimientos));
 
             if (response != null)
             {

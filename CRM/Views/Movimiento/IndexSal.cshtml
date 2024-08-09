@@ -22,6 +22,7 @@
 
                     <div class="flex items-center justify-between flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 pb-4 bg-white dark:bg-gray-900">
                         <div class="relative">
+                            <a href="/Movimiento/AgregarSal" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-8 group hover:bg-gray-100 dark:text-white"></i>Agregar Movimiento</a>
                             @*                             @HtmlElement.ActionLink(Html,"purple", "Agregar Cliente", "AgregarCliente", "Cliente", "fa-solid fa-user-plus", "btnAddCliente")
                             *@
                         </div>
@@ -97,6 +98,12 @@
                                                     {
                                                         @HtmlElement.TailwindBadge(Html, "reed", "", "Anulado", "")
                                                     }
+                                                </td>
+
+
+                                                <td class="px-6 py-4">
+
+                                                    @HtmlElement.TailwindTableButton(Html, "blue", "", "fa-solid fa-pencil", "", "btn", "Editar Movimiento", $"/Movimiento/EditarSal/{item.IdMovimiento}")
                                                 </td>
                                             </tr>
                                         }

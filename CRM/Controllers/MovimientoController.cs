@@ -2,8 +2,8 @@
 using CRM.Helpers.Interfaces;
 using CRM.ViewModels;
 using Entities.Entities;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 
 namespace CRM.Controllers
@@ -91,7 +91,7 @@ namespace CRM.Controllers
             }
         }
 
-        public IActionResult Agregar()
+        public IActionResult AgregarEnt()
         {
             var usuarioEnSesion = _HttpCA.HttpContext?.Session.GetString("UsuarioEnSesion");
 
@@ -106,8 +106,28 @@ namespace CRM.Controllers
                 return View();
             }
 
+
         }
-        public IActionResult Editar(int id)
+
+        public IActionResult AgregarSal()
+        {
+            var usuarioEnSesion = _HttpCA.HttpContext?.Session.GetString("UsuarioEnSesion");
+
+            if (usuarioEnSesion == null)
+            {
+                TempData["LoginError"] = "Tiempo de sesión finalizó";
+                return Redirect("/Account/Login");
+            }
+            else
+            {
+                ViewBag.UsuarioEnSesion = usuarioEnSesion;
+                return View();
+            }
+
+
+        }
+
+        public IActionResult EditarEnt(int id)
         {
             try
             {
@@ -124,18 +144,18 @@ namespace CRM.Controllers
                     var item = MovimientosHelper.GetMovimientoByID(id);
                     if (item == null)
                     {
-                        ViewData["NoItemById"] = "No se ha encontrado el cliente";
+                        ViewData["NoItemById"] = "No se ha encontrado el movimiento";
                         return View(new MovimientosViewModel());
                     }
                     else
                     {
-                        var tipoMovimiento = new List<TipoEstadoMovimiento>()
+                        var tiposEstado = new List<TipoEstadoMovimiento>()
                         {
                             new TipoEstadoMovimiento { IdEstadoMovimiento = 1, Nombre = "Pendiente" },
                             new TipoEstadoMovimiento { IdEstadoMovimiento = 2, Nombre = "Pagado" },
                             new TipoEstadoMovimiento { IdEstadoMovimiento = 3, Nombre = "Anulado" }
                         };
-                        ViewData["EstadoMovimiento"] = tipoMovimiento;
+                        ViewData["TiposEstado"] = tiposEstado;
                         return View(item);
                     }
                 }
@@ -150,6 +170,78 @@ namespace CRM.Controllers
 
             }
         }
+
+        public IActionResult EditarSal(int id)
+        {
+            try
+            {
+                var usuarioEnSesion = _HttpCA.HttpContext?.Session.GetString("UsuarioEnSesion");
+
+                if (usuarioEnSesion == null)
+                {
+                    TempData["LoginError"] = "Tiempo de sesión finalizó";
+                    return Redirect("/Account/Login");
+                }
+                else
+                {
+                    ViewBag.UsuarioEnSesion = usuarioEnSesion;
+                    var item = MovimientosHelper.GetMovimientoByID(id);
+                    if (item == null)
+                    {
+                        ViewData["NoItemById"] = "No se ha encontrado el movimiento";
+                        return View(new MovimientosViewModel());
+                    }
+                    else
+                    {
+                        var tiposEstado = new List<TipoEstadoMovimiento>()
+                        {
+                            new TipoEstadoMovimiento { IdEstadoMovimiento = 1, Nombre = "Pendiente" },
+                            new TipoEstadoMovimiento { IdEstadoMovimiento = 2, Nombre = "Pagado" },
+                            new TipoEstadoMovimiento { IdEstadoMovimiento = 3, Nombre = "Anulado" }
+                        };
+                        ViewData["TiposEstado"] = tiposEstado;
+                        return View(item);
+                    }
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+                ViewData["ErrorItemById"] = $"Ocurrió un error al obtener el item: {ex}";
+                return View(new MovimientosViewModel());
+
+            }
+        }
+
+        #region [Métodos]
+
+        public List<TipoEstadoMovimiento> GetTiposIdentificacion()
+        {
+            var tiposIdSesion = _HttpCA.HttpContext?.Session.GetString("TiposIdentificacion");
+
+            if (tiposIdSesion == null)
+            {
+                var listadoClientesTiposId = MovimientosHelper.GetTipoEstado();
+
+                if (listadoClientesTiposId != null)
+                {
+                    _HttpCA.HttpContext?.Session.SetString("TipoEstadoMovimiento", JsonConvert.SerializeObject(listadoClientesTiposId));
+                    return listadoClientesTiposId;
+                }
+                else
+                {
+                    return new List<TipoEstadoMovimiento>();
+                }
+            }
+            else
+            {
+                return JsonConvert.DeserializeObject<List<TipoEstadoMovimiento>>(tiposIdSesion);
+            }
+
+        }
+
         [HttpPost]
         public IActionResult AgregarMovSal(MovimientosViewModel model)
         {
@@ -172,17 +264,17 @@ namespace CRM.Controllers
                     model.IdTipoMovimiento = 2;
                     model.IdUsuarioCreacion = usuarioModel.Id;
 
-                    MovimientosHelper.AddSalEnt(model);
-                    TempData["NewIDMov"] = model.IdMovimiento;
-                    return Redirect("/Movimiento/Index");
+                    _ = MovimientosHelper.AddSalEnt(model);
+                    return Redirect("/Movimiento/IndexSal");
                 }
                 else
                 {
-                    return Redirect("/Movimiento/Index");
+                    return Redirect("/Movimiento/IndexSal");
 
                 }
             }
         }
+
         [HttpPost]
         public IActionResult AgregarMovEnt(MovimientosViewModel model)
         {
@@ -205,8 +297,7 @@ namespace CRM.Controllers
                     model.IdTipoMovimiento = 1;
                     model.IdUsuarioCreacion = usuarioModel.Id;
 
-                    MovimientosHelper.AddSalEnt(model);
-                    TempData["NewMovimieno"] = "Se agrego";
+                    _ = MovimientosHelper.AddSalEnt(model);
                     return Redirect("/Movimiento/IndexEnt");
                 }
                 else
@@ -218,7 +309,7 @@ namespace CRM.Controllers
         }
 
         [HttpPost]
-        public IActionResult EditarMov(MovimientosViewModel model)
+        public IActionResult EditarMovEnt(MovimientosViewModel model)
         {
             var usuarioEnSesion = _HttpCA.HttpContext?.Session.GetString("UsuarioEnSesion");
 
@@ -234,10 +325,11 @@ namespace CRM.Controllers
 
                 if (ModelState.IsValid)
                 {
+                    model.Imagen = null;
                     model.IdUsuarioModificacion = usuarioModel.Id;
                     model.FechaModificacion = DateTime.Now;
-
-                    MovimientosHelper.Update(model);
+                    model.IdTipoMovimiento = 1;
+                    MovimientosHelper.UpdateMovimiento(model);
                     return Redirect("/Movimiento/IndexEnt");
                 }
                 else
@@ -248,6 +340,39 @@ namespace CRM.Controllers
             }
 
         }
+
+        [HttpPost]
+        public IActionResult EditarMovSal(MovimientosViewModel model)
+        {
+            var usuarioEnSesion = _HttpCA.HttpContext?.Session.GetString("UsuarioEnSesion");
+
+            if (usuarioEnSesion == null)
+            {
+                TempData["LoginError"] = "Tiempo de sesión finalizó";
+                return Redirect("/Account/Login");
+            }
+            else
+            {
+                var usuarioModel = JsonConvert.DeserializeObject<BeforeLoginModel>(usuarioEnSesion);
+
+
+                if (ModelState.IsValid)
+                {
+                    model.Imagen = null;
+                    model.IdUsuarioModificacion = usuarioModel.Id;
+                    model.FechaModificacion = DateTime.Now;
+                    model.IdTipoMovimiento = 2;
+                    MovimientosHelper.UpdateMovimiento(model);
+                    return Redirect("/Movimiento/IndexSal");
+                }
+                else
+                {
+                    return Redirect("/Movimiento/IndexSal");
+
+                }
+            }
+
+        }
+        #endregion
     }
 }
-

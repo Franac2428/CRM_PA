@@ -13,7 +13,7 @@ namespace CRM.Helpers.Interfaces
 
         MovimientosViewModel GetMovimientoByID(int id);
 
-        MovimientosViewModel Update(MovimientosViewModel movimientoss);
+        MovimientosViewModel UpdateMovimiento(MovimientosViewModel movimientos);
 
     }
 }
