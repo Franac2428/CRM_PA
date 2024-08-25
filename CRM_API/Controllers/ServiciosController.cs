@@ -40,7 +40,7 @@ namespace CRM_API.Controllers
         }
 
         // PUT api/<ServiciosController>/5
-        [HttpPut]
+        [HttpPut("{id}")]
         public ServiciosModel Put([FromBody] ServiciosModel servicios)
         {
             _servicios.Update(servicios);

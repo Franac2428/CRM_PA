@@ -104,14 +104,12 @@ namespace CRM.Controllers
                     }
                     else
                     {
-                        var tiposIdentificacion = GetTiposIdentificacion();
-                        var tiposPlan = new List<TipoPlan>()
+                        var tiposMoneda = new List<TipoMoneda>()
                         {
-                            new TipoPlan { IdTipoPlan = 1, Nombre = "Mensual" },
-                            new TipoPlan { IdTipoPlan = 2, Nombre = "Anual" }
+                            new TipoMoneda { IdMoneda = 1, Nombre = "Colones" },
+                            new TipoMoneda { IdMoneda = 2, Nombre = "Dolares" }
                         };
-                        ViewData["TiposPlan"] = tiposPlan;
-                        ViewData["TiposIdentificacion"] = tiposIdentificacion;
+                        ViewData["tiposMoneda"] = tiposMoneda;
                         return View(item);
                     }
                 }
@@ -211,11 +209,11 @@ namespace CRM.Controllers
 
                     ServicioHelper.AddServicio(model);
                     TempData["NewServicio"] = model.Nombre;
-                    return Redirect("/Servicio/Index");
+                    return Redirect("/Servicios/Index");
                 }
                 else
                 {
-                    return Redirect("/Servicio/Index");
+                    return Redirect("/Servicios/Index");
 
                 }
             }
@@ -243,11 +241,11 @@ namespace CRM.Controllers
                     model.FechaModificacion = DateTime.Now;
 
                     ServicioHelper.UpdateServicio(model);
-                    return Redirect("/Servicio/Index");
+                    return Redirect("/Servicios/Index");
                 }
                 else
                 {
-                    return Redirect("/Servicio/Index");
+                    return Redirect("/Servicios/Index");
 
                 }
             }
@@ -276,12 +274,12 @@ namespace CRM.Controllers
                     item.FechaModificacion = DateTime.Now;
 
                     ServicioHelper.UpdateServicio(item);
-                    return Redirect("/Servicio/Index");
+                    return Redirect("/Servicios/Index");
 
                 }
                 else
                 {
-                    return Redirect("/Servicio/Index");
+                    return Redirect("/Servicios/Index");
                 }
 
 

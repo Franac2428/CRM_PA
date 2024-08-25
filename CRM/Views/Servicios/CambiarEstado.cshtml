@@ -4,9 +4,9 @@
     string[] items = new string[] { "Servicios", "Cambiar Estado" };
 
     //Datos del controller
-    var nombreServicio = ViewData["ServicName"].ToString();
+    var nombreServicio = ViewData["ClientName"].ToString();
     var message = ViewData["Message"].ToString();
-    var idServicio = ViewData["ServicId"];
+    var idServicio = ViewData["ClientId"];
 }
 
 
@@ -25,7 +25,7 @@
                         <div class="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg shadow-lg">
                             <h5 class="text-xl font-bold mb-4 dark:text-white">Cambio de Estado</h5>
                             <hr class="h-px my-2 bg-gray-400 border-0 dark:bg-gray-100">
-                            <form action="/Servicio/CambiarEstadoServicio" method="POST" class="p-4 md:p-5">
+                            <form action="/Servicios/CambiarEstadoServicio" method="POST" class="p-4 md:p-5">
                                 <input type="hidden" name="id" value="@idServicio" />
                                 <input type="hidden" name="inactivar" value="@((message == "inactivar") ? "true" : "false")" />
 
