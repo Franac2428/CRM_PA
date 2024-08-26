@@ -108,7 +108,6 @@ namespace CRM.Controllers
                             new TipoMoneda { IdMoneda = 2, Nombre = "Dólares" }
                         };
                         ViewData["TiposMoneda"] = tiposMoneda;
-                        ViewData["TiposIdentificacion"] = tiposIdentificacion;
                         return View(item);
                     }
                 }
