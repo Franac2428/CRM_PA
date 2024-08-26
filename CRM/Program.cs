@@ -20,9 +20,10 @@ builder.Services.AddScoped<IClienteHelper, ClienteHelper>();
 builder.Services.AddScoped<IServiciosHelper, ServiciosHelper>();
 builder.Services.AddScoped<IMovimientosHelper, MovimientoHelper>();
 builder.Services.AddScoped<ILoginHelper, LoginHelper>();
-
-
-
+builder.Services.AddScoped<IGraficosHelper, GraficosHelper>();
+builder.Services.AddScoped<IPagosHelper, PagosHelper>();
+builder.Services.AddScoped<IInfoEmpresaHelper, InfoEmpresaHelper>();
+builder.Services.AddScoped<IRecibosHelper, RecibosHelper>();
 
 
 var app = builder.Build();

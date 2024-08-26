@@ -13,5 +13,6 @@ namespace DataAccess.Interfaces
         bool Remove(TEntity entity);
         TEntity GetById(int id);
         IEnumerable<TEntity> GetAll();
+        TEntity Get(TEntity model);
     }
 }

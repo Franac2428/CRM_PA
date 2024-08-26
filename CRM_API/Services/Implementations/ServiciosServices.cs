@@ -17,9 +17,9 @@ namespace CRM_API.Services.Implementations
             this.unidad = unidad;
         }
 
-        private Servicios Convert(ServiciosModel servicio)
+        private Servicio Convert(ServiciosModel servicio)
         {
-            Servicios entity = new Servicios
+            Servicio entity = new Servicio
             {
                 IdServicio = servicio.IdServicio,
                 Nombre = servicio.Nombre,
@@ -35,7 +35,7 @@ namespace CRM_API.Services.Implementations
             return entity;
         }
 
-        private ServiciosModel Convert(Servicios servicio)
+        private ServiciosModel Convert(Servicio servicio)
         {
             ServiciosModel entity = new ServiciosModel
             {

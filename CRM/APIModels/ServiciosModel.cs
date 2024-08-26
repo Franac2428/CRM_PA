@@ -8,7 +8,7 @@ namespace CRM.APIModels
 
         public string? Nombre { get; set; }
 
-        public string? Monto { get; set; }
+        public decimal? Monto { get; set; }
 
         public DateTime? FechaCreacion { get; set; }
 

@@ -37,13 +37,11 @@ public partial class CrmContext : DbContext
 
     public virtual DbSet<Pago> Pagos { get; set; }
 
-    public virtual DbSet<PagosGenerado> PagosGenerados { get; set; }
-
     public virtual DbSet<Recibo> Recibos { get; set; }
 
     public virtual DbSet<Saldo> Saldos { get; set; }
 
-    public virtual DbSet<Servicios> Servicios { get; set; }
+    public virtual DbSet<Servicio> Servicios { get; set; }
 
     public virtual DbSet<TipoEstadoMovimiento> TipoEstadoMovimientos { get; set; }
 
@@ -203,6 +201,7 @@ public partial class CrmContext : DbContext
             entity.Property(e => e.IdUsuarioCreacion).HasMaxLength(450);
             entity.Property(e => e.IdUsuarioModificacion).HasMaxLength(450);
             entity.Property(e => e.Monto).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.TipoImagen).HasMaxLength(20);
 
             entity.HasOne(d => d.IdEstadoMovimientoNavigation).WithMany(p => p.Movimientos)
                 .HasForeignKey(d => d.IdEstadoMovimiento)
@@ -217,10 +216,8 @@ public partial class CrmContext : DbContext
         {
             entity.HasKey(e => e.IdPago).HasName("PK__Pagos__FC851A3A34735C52");
 
-            entity.Property(e => e.FechaModificacion)
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime");
-            entity.Property(e => e.FechaPago).HasColumnType("datetime");
+            entity.Property(e => e.FechaCreacion).HasColumnType("datetime");
+            entity.Property(e => e.FechaModificacion).HasColumnType("datetime");
             entity.Property(e => e.IdUsuarioCreacion).HasMaxLength(450);
             entity.Property(e => e.IdUsuarioModificacion).HasMaxLength(450);
             entity.Property(e => e.MontoPago).HasColumnType("decimal(18, 2)");
@@ -233,31 +230,6 @@ public partial class CrmContext : DbContext
             entity.HasOne(d => d.IdServicioNavigation).WithMany(p => p.Pagos)
                 .HasForeignKey(d => d.IdServicio)
                 .HasConstraintName("FK_Pagos_Servicios");
-        });
-
-        modelBuilder.Entity<PagosGenerado>(entity =>
-        {
-            entity.HasKey(e => e.IdPagoGenerado).HasName("PK__PagosGen__750D42F45E87DB25");
-
-            entity.Property(e => e.FechaCreacion)
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime");
-            entity.Property(e => e.FechaModificacion).HasColumnType("datetime");
-            entity.Property(e => e.IdUsuarioCreacion).HasMaxLength(450);
-            entity.Property(e => e.IdUsuarioModificacion).HasMaxLength(450);
-            entity.Property(e => e.MontoPago).HasColumnType("decimal(18, 2)");
-
-            entity.HasOne(d => d.IdClienteNavigation).WithMany(p => p.PagosGenerados)
-                .HasForeignKey(d => d.IdCliente)
-                .HasConstraintName("FK_PagosGenerados_Cliente");
-
-            entity.HasOne(d => d.IdEstadoPagoNavigation).WithMany(p => p.PagosGenerados)
-                .HasForeignKey(d => d.IdEstadoPago)
-                .HasConstraintName("FK_PagosGenerados_TipoEstadoPago");
-
-            entity.HasOne(d => d.IdServicioNavigation).WithMany(p => p.PagosGenerados)
-                .HasForeignKey(d => d.IdServicio)
-                .HasConstraintName("FK_PagosGenerados_Servicio");
         });
 
         modelBuilder.Entity<Recibo>(entity =>
@@ -290,7 +262,7 @@ public partial class CrmContext : DbContext
                 .HasConstraintName("FK_TipoMoneda_Saldos");
         });
 
-        modelBuilder.Entity<Servicios>(entity =>
+        modelBuilder.Entity<Servicio>(entity =>
         {
             entity.HasKey(e => e.IdServicio).HasName("PK__Servicio__2DCCF9A2B630BE6B");
 

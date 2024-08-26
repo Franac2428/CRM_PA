@@ -25,6 +25,8 @@ public partial class Movimiento
 
     public byte[]? Imagen { get; set; }
 
+    public string? TipoImagen { get; set; }
+
     public virtual TipoEstadoMovimiento? IdEstadoMovimientoNavigation { get; set; }
 
     public virtual TipoMovimiento? IdTipoMovimientoNavigation { get; set; }

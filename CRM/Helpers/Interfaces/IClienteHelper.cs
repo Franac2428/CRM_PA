@@ -17,6 +17,8 @@ namespace CRM.Helpers.Interfaces
 
         //ClienteViewModel DeleteCliente(int id);
 
+        //Otros métodos
+        List<ServiciosViewModel> GetServicios();
 
     }
 }

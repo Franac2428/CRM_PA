@@ -11,7 +11,7 @@ public partial class Pago
 
     public decimal? MontoPago { get; set; }
 
-    public DateTime? FechaPago { get; set; }
+    public DateTime? FechaCreacion { get; set; }
 
     public string? IdUsuarioCreacion { get; set; }
 
@@ -19,7 +19,7 @@ public partial class Pago
 
     public string? IdUsuarioModificacion { get; set; }
 
-    public DateOnly? MesPago { get; set; }
+    public DateTime? MesPago { get; set; }
 
     public int? IdEstadoPago { get; set; }
 
@@ -32,10 +32,14 @@ public partial class Pago
     public byte[]? ImagenComprobante { get; set; }
 
     public bool? Eliminado { get; set; }
+    public string? TipoImagen { get; set; }
+    public bool? EnviadoAFacturar { get; set; }
+    public decimal? PagaCon { get; set; }
+
 
     public virtual ICollection<DetallesRecibo> DetallesRecibos { get; set; } = new List<DetallesRecibo>();
 
     public virtual TipoEstadoPago? IdEstadoPagoNavigation { get; set; }
 
-    public virtual Servicios? IdServicioNavigation { get; set; }
+    public virtual Servicio? IdServicioNavigation { get; set; }
 }

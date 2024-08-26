@@ -68,18 +68,16 @@ namespace CRM.Controllers
             else
             {
                 ViewBag.UsuarioEnSesion = usuarioEnSesion;
-                var tiposIdentificacion = GetTiposIdentificacion();
-                var tiposPlan = new List<TipoPlan>()
+                var tiposMoneda = new List<TipoMoneda>()
                 {
-                    new TipoPlan { IdTipoPlan = 1, Nombre = "Mensual" },
-                    new TipoPlan { IdTipoPlan = 2, Nombre = "Anual" }
+                    new TipoMoneda { IdMoneda = 1, Nombre = "Colones" },
+                    new TipoMoneda { IdMoneda = 2, Nombre = "Dólares" }
                 };
-                ViewData["TiposPlan"] = tiposPlan;
-                ViewData["TiposIdentificacion"] = tiposIdentificacion;
+                ViewData["TiposMoneda"] = tiposMoneda;
                 return View();
             }
 
-            
+
         }
 
         public IActionResult Editar(int id)
@@ -104,19 +102,17 @@ namespace CRM.Controllers
                     }
                     else
                     {
-                        var tiposIdentificacion = GetTiposIdentificacion();
-                        var tiposPlan = new List<TipoPlan>()
+                        var tiposMoneda = new List<TipoMoneda>()
                         {
-                            new TipoPlan { IdTipoPlan = 1, Nombre = "Mensual" },
-                            new TipoPlan { IdTipoPlan = 2, Nombre = "Anual" }
+                            new TipoMoneda { IdMoneda = 1, Nombre = "Colones" },
+                            new TipoMoneda { IdMoneda = 2, Nombre = "Dólares" }
                         };
-                        ViewData["TiposPlan"] = tiposPlan;
-                        ViewData["TiposIdentificacion"] = tiposIdentificacion;
+                        ViewData["TiposMoneda"] = tiposMoneda;
                         return View(item);
                     }
                 }
 
-                
+
 
             }
             catch (Exception ex)
@@ -128,7 +124,7 @@ namespace CRM.Controllers
         }
 
         [HttpGet("[controller]/CambiarEstado/{id}/{inactivar}/{nombre}")]
-        public IActionResult CambiarEstado(int id,bool inactivar,string nombre) 
+        public IActionResult CambiarEstado(int id, bool inactivar, string nombre)
         {
             var message = inactivar ? "inactivar" : "activar";
 
@@ -145,8 +141,8 @@ namespace CRM.Controllers
                 {
                     ViewBag.UsuarioEnSesion = usuarioEnSesion;
                     ViewData["Message"] = message;
-                    ViewData["ClientName"] = nombre;
-                    ViewData["ClientId"] = id;
+                    ViewData["NombreServicio"] = nombre;
+                    ViewData["IdServicio"] = id;
                     return View();
                 }
 
@@ -163,31 +159,6 @@ namespace CRM.Controllers
 
         #region [Métodos]
 
-        public List<TipoIdentificacion> GetTiposIdentificacion()
-        {
-            var tiposIdSesion = _HttpCA.HttpContext?.Session.GetString("TiposIdentificacion");
-
-            if (tiposIdSesion == null)
-            {
-                var listadoServiciosTiposId = ServicioHelper.GetTiposMoneda();
-
-                if (listadoServiciosTiposId != null)
-                {
-                    _HttpCA.HttpContext?.Session.SetString("TiposIdentificacion", JsonConvert.SerializeObject(listadoServiciosTiposId));
-                    return listadoServiciosTiposId;
-                }
-                else
-                {
-                    return new List<TipoIdentificacion>();
-                }
-            }
-            else
-            {
-                return JsonConvert.DeserializeObject<List<TipoIdentificacion>>(tiposIdSesion);
-            }
-
-        }
-
         [HttpPost]
         public IActionResult AgregarServicio(ServiciosViewModel model)
         {
@@ -201,21 +172,20 @@ namespace CRM.Controllers
             else
             {
                 var usuarioModel = JsonConvert.DeserializeObject<BeforeLoginModel>(usuarioEnSesion);
-                
+
 
                 if (ModelState.IsValid)
                 {
                     model.Eliminado = false;
-                    model.IdServicio = 1;
                     model.IdUsuarioCreacion = usuarioModel.Id;
 
                     ServicioHelper.AddServicio(model);
                     TempData["NewServicio"] = model.Nombre;
-                    return Redirect("/Servicio/Index");
+                    return Redirect("/Servicios/Index");
                 }
                 else
                 {
-                    return Redirect("/Servicio/Index");
+                    return Redirect("/Servicios/Index");
 
                 }
             }
@@ -243,11 +213,11 @@ namespace CRM.Controllers
                     model.FechaModificacion = DateTime.Now;
 
                     ServicioHelper.UpdateServicio(model);
-                    return Redirect("/Servicio/Index");
+                    return Redirect("/Servicios/Index");
                 }
                 else
                 {
-                    return Redirect("/Servicio/Index");
+                    return Redirect("/Servicios/Index");
 
                 }
             }
@@ -255,7 +225,7 @@ namespace CRM.Controllers
         }
 
         [HttpPost]
-        public IActionResult CambiarEstadoServicio(int id,bool inactivar)
+        public IActionResult CambiarEstadoServicio(int id, bool inactivar)
         {
             var usuarioEnSesion = _HttpCA.HttpContext?.Session.GetString("UsuarioEnSesion");
 
@@ -269,19 +239,19 @@ namespace CRM.Controllers
                 var usuarioModel = JsonConvert.DeserializeObject<BeforeLoginModel>(usuarioEnSesion);
                 var item = ServicioHelper.GetServicioById(id);
 
-                if(item != null)
+                if (item != null)
                 {
                     item.Eliminado = inactivar;
                     item.IdUsuarioModificacion = usuarioModel.Id;
                     item.FechaModificacion = DateTime.Now;
 
                     ServicioHelper.UpdateServicio(item);
-                    return Redirect("/Servicio/Index");
+                    return Redirect("/Servicios/Index");
 
                 }
                 else
                 {
-                    return Redirect("/Servicio/Index");
+                    return Redirect("/Servicios/Index");
                 }
 
 

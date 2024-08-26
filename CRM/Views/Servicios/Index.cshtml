@@ -20,10 +20,11 @@
                 <h4 class="text-2xl font-bold dark:text-white">Administración de Servicios</h4>
                 <div class="mt-4 grid grid-cols-12 mb-3">
 
-                    <div class="flex items-center justify-between flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 pb-4 bg-white dark:bg-gray-900">
+                    <div class="mt-2 mb-2 flex items-center justify-between flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 pb-4 bg-white dark:bg-gray-900">
                         <div class="relative">
-@*                             @HtmlElement.ActionLink(Html,"purple", "Agregar Servicio", "AgregarServicio", "Servicio", "fa-solid fa-user-plus", "btnAddServicio")
- *@                        </div>
+                            @HtmlElement.ActionLink(Html, "purple", "Nuevo Servicio", "Agregar", "Servicios", "fa-solid fa-plus", "")
+
+                        </div>
                     </div>
                     @if (TempData["SuccessAction"] != null)
                     {
@@ -57,13 +58,13 @@
                                                 IdServicio
                                             </th>
                                             <th scope="col" class="px-6 py-3">
-                                                Nombre 
+                                                Nombre
                                             </th>
                                             <th scope="col" class="px-6 py-3">
                                                 Monto
                                             </th>
                                             <th scope="col" class="px-6 py-3">
-                                               Moneda
+                                                Moneda
                                             </th>
                                             <th scope="col" class="px-6 py-3">
                                                 Estado
@@ -87,7 +88,7 @@
                                                     @HtmlElement.TailwindBadge(Html, "gray", "", item.IdMoneda == 1 ? $"₡{item.Monto}" : $"${item.Monto}", "")
                                                 </td>
                                                 <td class="px-6 py-4">
-                                                    @if(item.IdMoneda == 1)
+                                                    @if (item.IdMoneda == 1)
                                                     {
                                                         @HtmlElement.TailwindBadge(Html, "yellow", "fa-solid fa-coins", "Colones", "")
                                                     }
@@ -126,7 +127,7 @@
                         </div>
                     }
 
-                    
+
                 </div>
 
             </div>

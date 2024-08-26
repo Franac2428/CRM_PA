@@ -32,6 +32,4 @@ public partial class Servicio
     public virtual AspNetUser? IdUsuarioModificacionNavigation { get; set; }
 
     public virtual ICollection<Pago> Pagos { get; set; } = new List<Pago>();
-
-    public virtual ICollection<PagosGenerado> PagosGenerados { get; set; } = new List<PagosGenerado>();
 }

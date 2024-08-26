@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Implementations
 {
-    public class ServiciosDALImpl : DALGenericoImpl<Servicios>, IServiciosDAL
+    public class ServiciosDALImpl : DALGenericoImpl<Servicio>, IServiciosDAL
     {
         private CrmContext crm;
         public ServiciosDALImpl(CrmContext crm) : base(crm)

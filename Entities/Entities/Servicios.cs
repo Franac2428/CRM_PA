@@ -25,13 +25,11 @@ public partial class Servicios
 
     public virtual ICollection<Cliente> Clientes { get; set; } = new List<Cliente>();
 
-    public virtual TipoMonedum? IdMonedaNavigation { get; set; }
+    public virtual TipoMoneda? IdMonedaNavigation { get; set; }
 
     public virtual AspNetUser? IdUsuarioCreacionNavigation { get; set; }
 
     public virtual AspNetUser? IdUsuarioModificacionNavigation { get; set; }
 
     public virtual ICollection<Pago> Pagos { get; set; } = new List<Pago>();
-
-    public virtual ICollection<PagosGenerado> PagosGenerados { get; set; } = new List<PagosGenerado>();
 }

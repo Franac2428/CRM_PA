@@ -69,6 +69,8 @@
             localStorage.setItem('theme', 'dark');
             theme = "dark";
         }
+
+        location.reload();
     }
     
 }

@@ -1,0 +1,282 @@
+﻿@using Entities.Entities
+@using CRM.ViewModels;
+@model CRM.ViewModels.VerPagoViewModel;
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Editar Pago";
+    string[] items = new string[] { "Pagos", "Editar Pago" };
+}
+
+@{
+    var ep = ViewData["TipoEstadosPago"];
+    List<TipoEstadoPago> epOptions = ep as List<TipoEstadoPago>;
+
+    var cl = ViewData["ClientesCatalogos"];
+    List<ClienteViewModel> clOptions = cl as List<ClienteViewModel>;
+
+    var sv = ViewData["ServiciosCatalogos"];
+    List<ServiciosViewModel> svOptions = sv as List<ServiciosViewModel>;
+
+    var estadosFacturacion = ViewData["EstadosFactCatalogos"] as Dictionary<string, bool>;
+    var fcOptions = estadosFacturacion?
+        .Select(kvp => new SelectListItem
+                {
+                    Text = kvp.Key,
+                    Value = kvp.Value.ToString()
+                })
+        .ToList();
+
+    var imageUrl = ViewData["UrlImagenComprobante"] != null ? ViewData["UrlImagenComprobante"] : "";
+    var imageUrlRaw = Html.Raw(imageUrl);
+    var clientePago = Model.NombreCliente + "_" + "PagoNo." + Model.IdPago;
+    
+}
+
+<div class="pt-16 lg:pl-64 pl-0 bg-white dark:bg-gray-900">
+    <div class="p-4 pt-40 sm:ml-64">
+        <div class="p-1">
+            <nav class="flex" aria-label="Breadcrumb">
+                <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
+                    @HtmlElement.TailwindBreadCrumb(Html, items)
+                </ol>
+            </nav>
+            <br />
+            <div class="p-1">
+                <div class="mt-3 grid grid-cols-12 mb-3">
+                    <div class="col-span-12 lg:col-span-6">
+                        <div class="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg shadow-lg">
+                            <h5 class="text-xl font-bold mb-4 dark:text-white">Editar Pago</h5>
+                            <hr class="h-px my-2 bg-gray-400 border-0 dark:bg-gray-100">
+                            @using (Html.BeginForm("RegistrarPago", "Pagos", FormMethod.Post, new { @class = "p-4 md:p-5", enctype = "multipart/form-data" }))
+                            {
+                                <div class="grid gap-4 mb-4 grid-cols-1 md:grid-cols-4">
+                                    <div hidden class="col-span-1">
+                                        <div class="block mb-2 text-md font-medium text-gray-900 dark:text-white">
+                                            
+                                        </div>
+                                        @Html.TextBoxFor(model => model.IdPago, new { @class = "bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" })
+                                        @Html.TextBoxFor(model => model.ImagenComprobante, new { @class = "bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" })
+                                        @Html.TextBoxFor(model => model.IdCliente, new { @class = "bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" })
+                                        @Html.TextBoxFor(model => model.MesPago, new { @class = "bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" })
+                                        @Html.TextBoxFor(model => model.IdServicio, new { @class = "bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" })
+
+
+
+
+                                    </div>
+
+                                    <div class="col-span-2">
+                                        <div class="block mb-2 text-md font-medium text-gray-900 dark:text-white">
+                                            Cliente
+                                        </div>
+                                        @if (clOptions != null)
+                                        {
+                                            @Html.DropDownListFor(
+                                                     model => model.IdCliente,
+                                                     new SelectList(clOptions, "IdCliente", "Nombre"),
+                                                     "---Seleccione---",
+                                                     new { @class = "cursor-not-allowed bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500", disabled="true", required = "required" }
+                                                     )
+                                        }
+                                        else
+                                        {
+                                            <span class="text-red-600">Debe seleccionar un cliente</span>
+                                        }
+                                        <span asp-validation-for="IdCliente" class="text-red-600"></span>
+                                    </div>
+
+                                    <div class="col-span-2">
+                                        <div class="block mb-2 text-md font-medium text-gray-900 dark:text-white">
+                                            Servicio
+                                        </div>
+                                        @if (svOptions != null)
+                                        {
+                                            @Html.DropDownListFor(
+                                                     model => model.IdServicio,
+                                                     new SelectList(svOptions, "IdServicio", "Nombre"),
+                                                     "---Seleccione---",
+                                                     new { @class = "cursor-not-allowed bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500", disabled = "true", required = "required" }
+                                                     )
+                                        }
+                                        else
+                                        {
+                                            <span class="text-red-600">Debe seleccionar un servicio</span>
+                                        }
+                                        <span asp-validation-for="IdServicio" class="text-red-600"></span>
+                                    </div>
+
+
+                                </div>
+
+                                <div class="grid gap-4 mb-4 grid-cols-1 md:grid-cols-4">
+                                    <div class="col-span-1">
+                                        <div class="block mb-2 text-md font-medium text-gray-900 dark:text-white">
+                                            Monto del Pago
+                                        </div>
+                                        @Html.TextBoxFor(model => model.MontoPago, new { @class = "bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500", type = "text", placeholder = "Monto del Pago", required = "required" })
+                                        @Html.ValidationMessageFor(model => model.MontoPago, "", new { @class = "text-red-600 dark:text-red-500" })
+                                        <span asp-validation-for="MontoPago" class="text-red-600"></span>
+                                    </div>
+
+                                    <div class="col-span-1">
+                                        <div class="block mb-2 text-md font-medium text-gray-900 dark:text-white">
+                                            Paga Con
+                                        </div>
+                                        @Html.TextBoxFor(model => model.PagaCon, new { @class = "bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500", type = "number", placeholder = "Paga Con", required = "required" })
+                                        @Html.ValidationMessageFor(model => model.PagaCon, "", new { @class = "text-red-600 dark:text-red-500" })
+                                        <span asp-validation-for="PagaCon" class="text-red-600"></span>
+                                    </div>
+
+                                    <div class="col-span-1">
+                                        <div class="block mb-2 text-md font-medium text-gray-900 dark:text-white">
+                                            Mes Pago
+                                        </div>
+                                        @Html.TextBoxFor(model => model.MesPago, new { @class = "cursor-not-allowed bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500", type = "text",disabled="disabled", placeholder = "Mes Pago", required = "required" })
+                                        @Html.ValidationMessageFor(model => model.MesPago, "", new { @class = "text-red-600 dark:text-red-500" })
+                                        <span asp-validation-for="MesPago" class="text-red-600"></span>
+                                    </div>
+
+
+                                    <div class="col-span-1">
+                                        <div class="block mb-2 text-md font-medium text-gray-900 dark:text-white">
+                                            Estado Pago
+                                        </div>
+                                        @if (epOptions != null)
+                                        {
+                                            @Html.DropDownListFor(
+                                                     model => model.IdEstadoPago,
+                                                     new SelectList(epOptions, "IdEstadoPago", "Nombre"),
+                                                     "---Seleccione---",
+                                                     new { @class = "bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500", required = "required" }
+                                                     )
+                                        }
+                                        else
+                                        {
+                                            <span class="text-red-600">No hay datos...</span>
+                                        }
+                                        <span asp-validation-for="IdEstadoPago" class="text-red-600"></span>
+                                    </div>
+
+                                </div>
+
+                                <div class="grid gap-4 mb-4 grid-cols-1 md:grid-cols-4">
+                                    <div class="col-span-2">
+                                        <div class="block mb-2 text-md font-medium text-gray-900 dark:text-white">
+                                            Comentario
+                                        </div>
+                                        @Html.TextBoxFor(model => model.Comentario, new { @class = "bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500", type = "text", placeholder = "Comentario" })
+                                        @Html.ValidationMessageFor(model => model.Comentario, "", new { @class = "text-red-600 dark:text-red-500" })
+                                        <span asp-validation-for="Comentario" class="text-red-600"></span>
+                                    </div>
+
+                                    <div class="col-span-1">
+                                        <div class="block mb-2 text-md font-medium text-gray-900 dark:text-white">
+                                            Ref. Comprobante
+                                        </div>
+                                        @Html.TextBoxFor(model => model.NumeroComprobannte, new { @class = "bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500", type = "text", placeholder = "Comprobante"})
+                                        @Html.ValidationMessageFor(model => model.NumeroComprobannte, "", new { @class = "text-red-600 dark:text-red-500" })
+                                        <span asp-validation-for="NumeroComprobannte" class="text-red-600"></span>
+                                    </div>
+
+                                    <div class="col-span-1">
+                                        <div class="block mb-2 text-md font-medium text-gray-900 dark:text-white">
+                                            Estado Facturación
+                                        </div>
+                                        @if (fcOptions != null)
+                                        {
+                                            @Html.DropDownListFor(
+                                                     model => model.EnviadoAFacturar,
+                                                     new SelectList(fcOptions, "Value", "Text"),
+                                                     "---Seleccione---",
+                                                     new { @class = "bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" }
+                                                     )
+                                        }
+                                        else
+                                        {
+                                            <span class="text-red-600">No hay datos...</span>
+                                        }
+                                        <span asp-validation-for="IdEstadoPago" class="text-red-600"></span>
+                                    </div>
+                                </div>
+
+
+                                <div class="grid gap-4 mb-4 grid-cols-1 md:grid-cols-4">
+                                    <div class="col-span-3">
+                                        <div class="block mb-2 text-md font-medium text-gray-900 dark:text-white">
+                                            Subir Imagen
+                                        </div>
+                                        <input type="file" name="ImagenComprobante"
+                                               class="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                               accept="image/*" />
+                                        @Html.ValidationMessage("ImagenComprobante", "", new { @class = "text-red-600 dark:text-red-500" })
+                                    </div>
+                                    <div class="mt-8  col-span-1">
+                                        
+                                    </div>
+                                </div>
+
+
+
+
+                                <div class="grid gap-4 mb-4 grid-cols-1 md:grid-cols-1">
+                                    <div class="mt-4">
+                                        <button class="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2.5 text-center me-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800 "
+                                                type="submit">
+                                            <i class="fa-solid fa-pencil"></i> Editar
+                                        </button>
+
+                                        @HtmlElement.ActionLink(Html, "gray", "Regresar al listado", "Index", "Pagos", "fa-solid fa-undo", "")
+                                    </div>
+                                </div>
+
+
+                            }
+                            @if(Model.ImagenComprobante != null)
+                            {
+                                <button id="downloadButton" class="text-purple-700 hover:text-purple border border-purple-700 hover:bg-purple-200 focus:ring-4 focus:outline-none focus:ring-purple-300 font-medium rounded-lg text-sm px-3 py-2.5 text-center me-2 mb-2 dark:border-purple-500 dark:text-purple-500 dark:hover:text-purple dark:hover:bg-purple-100 dark:focus:ring-purple-800 ">
+                                    <i class="fa-solid fa-download"></i> Descargar Comprobante Adjunto
+                                </button>
+                            }
+                            else
+                            {
+                                @HtmlElement.TailwindAlert(Html, "Advertencia", "No se encontraron adjuntos", "yellow", "fa-solid fa fa-warning", "")
+
+                            }
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if(Model.ImagenComprobante != null)
+{
+    <script>
+        var imageDataUrl = '@imageUrlRaw';
+
+        document.getElementById('downloadButton').addEventListener('click', function () {
+            if (imageDataUrl) {
+                var fileExtension = '@Model.TipoImagen'.split('/')[1];
+                var fileName = 'Comprobante_' + '@clientePago.' + fileExtension;
+                var link = document.createElement('a');
+                link.href = imageDataUrl;
+                link.download = fileName;
+                link.click();
+                closeModal();
+            } else {
+                console.error('La URL de la imagen no es válida.');
+            }
+        });
+
+    </script>
+}
+
+
+
+
+
+
+

@@ -4,6 +4,7 @@ using CRM.ViewModels;
 using Entities.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 
 namespace CRM.Controllers
@@ -373,6 +374,31 @@ namespace CRM.Controllers
             }
 
         }
+
+        [HttpPost]
+        public void SubirImagen(IFormFile imagen)
+        {
+            if (imagen != null && imagen.Length > 0)
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    imagen.CopyToAsync(memoryStream);
+                    byte[] imagenBytes = memoryStream.ToArray();
+                    string tipoImagen = imagen.ContentType;
+
+                    Console.WriteLine(imagen);
+
+                    
+                }
+
+
+            }
+            
+        }
+
+
+
+
         #endregion
     }
 }

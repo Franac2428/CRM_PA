@@ -192,7 +192,7 @@ public static class CustomHelpers
     {
         TagBuilder tb = new TagBuilder("span");
         var iconBd = $"<i class='{icon} mr-1'></i>";
-        var html = $"<span class='{additionalClass} badge bg-{color}-100 text-{color}-800 text-sm font-medium inline-flex items-center px-2.5 py-0.5 rounded me-2 dark:bg-{color}-800 dark:text-{color}-400 border border-{color}-500'>{iconBd} {innerText}</span>";
+        var html = $"<span class='{additionalClass} badge bg-{color}-100 text-{color}-700 text-sm font-medium inline-flex items-center px-2.5 py-0.5 rounded me-2 dark:bg-{color}-800 dark:text-{color}-500 border border-{color}-500'>{iconBd} {innerText}</span>";
         tb.InnerHtml.AppendHtml(html);
         return new HtmlContentBuilder().AppendHtml(tb);
     }

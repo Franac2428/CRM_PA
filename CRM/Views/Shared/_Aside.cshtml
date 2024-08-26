@@ -15,26 +15,15 @@
                 </a>
             </li>
 
+
             <li>
-                <button type="button" class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700" aria-controls="dropdown-Clientes" data-collapse-toggle="dropdown-Clientes" aria-expanded="false">
+                <a href="/Cliente/Index" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                     <i class="fa-solid fa-users"></i>
-                    <span class="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">Clientes</span>
-                    <i class="fa-sharp fa-solid fa-chevron-down"></i>
-                </button>
-                <ul id="dropdown-Clientes" class="hidden py-2 space-y-2">
-                    <li>
-                        <a href="/Cliente/Index" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-8 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"><i class="far fa-circle mr-3"></i>Listado</a>
-                    </li>
-
-                    <li>
-                        <a href="/Cliente/Agregar" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-8 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"><i class="far fa-circle mr-3"></i>Agregar</a>
-                    </li>
-
-                    <li>
-                        <a href="#" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-8 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"><i class="far fa-circle mr-3"></i>Clientes en Morosidad</a>
-                    </li> 
-                </ul>
+                    <span class="ms-3">Clientes</span>
+                </a>
             </li>
+
+           
 
             <li>
                 <button type="button" class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700" aria-controls="dropdown-Pagos" data-collapse-toggle="dropdown-Pagos" aria-expanded="false">
@@ -43,18 +32,13 @@
                     <i class="fa-sharp fa-solid fa-chevron-down"></i>
                 </button>
                 <ul id="dropdown-Pagos" class="hidden py-2 space-y-2">
-
                     <li>
-                        <a href="#" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-8 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"><i class="far fa-circle mr-3"></i>Generar Pagos</a>
+                        <a href="/Pagos/Index" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-8 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"><i class="far fa-circle mr-3"></i>Admin. Pagos</a>
                     </li>
 
-                    <li>
-                        <a href="#" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-8 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"><i class="far fa-circle mr-3"></i>Listado de Pagos</a>
-                    </li>
-
-                    <li>
+                   @*  <li>
                         <a href="#" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-8 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"><i class="far fa-circle mr-3"></i>Saldos</a>
-                    </li>
+                    </li> *@
 
                 </ul>
             </li>
@@ -62,17 +46,13 @@
             <li>
                 <button type="button" class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700" aria-controls="dropdown-Facturas" data-collapse-toggle="dropdown-Facturas" aria-expanded="false">
                     <i class="fa-solid fa-file-invoice-dollar"></i>
-                    <span class="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">Facturas</span>
+                    <span class="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">Recibos</span>
                     <i class="fa-sharp fa-solid fa-chevron-down"></i>
                 </button>
                 <ul id="dropdown-Facturas" class="hidden py-2 space-y-2">
 
                     <li>
-                        <a href="#" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-8 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"><i class="far fa-circle mr-3"></i>Facturar</a>
-                    </li>
-
-                    <li>
-                        <a href="#" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-8 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"><i class="far fa-circle mr-3"></i>Lista de facturas</a>
+                        <a href="/Recibos/Index" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-8 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"><i class="far fa-circle mr-3"></i>Adm. Recibos</a>
                     </li>
 
                 </ul>
@@ -106,21 +86,18 @@
                 <ul id="dropdown-Administracion" class="hidden py-2 space-y-2">
 
                     <li>
-                        <a href="#" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-8 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"><i class="far fa-circle mr-3"></i>Info. Empresa</a>
+                        <a href="/InfoEmpresa/Agregar" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-8 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"><i class="far fa-circle mr-3"></i>Info. Empresa</a>
                     </li>
 
                     <li>
                         <a href="#" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-8 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"><i class="far fa-circle mr-3"></i>Usuarios</a>
                     </li>
 
-                    <li>
-                        <a href="#" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-8 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"><i class="far fa-circle mr-3"></i> Roles</a>
-                    </li>
 
                 </ul>
             </li>
 
-            <li>
+            @* <li>
                 <button type="button" class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700" aria-controls="dropdown-Catalogos" data-collapse-toggle="dropdown-Catalogos" aria-expanded="false">
                     <i class="fa-solid fas fa-book"></i>
                     <span class="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">Catálogos</span>
@@ -134,7 +111,7 @@
 
 
                 </ul>
-            </li>
+            </li> *@
         </ul>
     </div>
 </aside>

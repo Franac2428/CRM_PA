@@ -84,6 +84,8 @@ builder.Services.AddScoped<ISaldoDAL, SaldoDALImpl>();
 builder.Services.AddScoped<ITipoMonedaDAL, TipoMonedaDALImpl>();
 builder.Services.AddScoped<IMovimientoDAL, MovimientoDALImpl>();
 builder.Services.AddScoped<ITipoMovimientoDAL, TipoMovimientoDALImpl>();
+builder.Services.AddScoped<IPagoDAL, PagoDALImpl>();
+
 
 
 //Servicios:
@@ -97,6 +99,11 @@ builder.Services.AddScoped<ISaldoServices, SaldoServices>();
 builder.Services.AddScoped<ITipoMonedaServices, TipoMonedaServices>();
 builder.Services.AddScoped<IMovimientoServices, MovimientoServices>();
 builder.Services.AddScoped<ITipoMovimientoServices, TipoMovimientoServices>();
+builder.Services.AddScoped<IGraficosSvc, GraficosSvc>();
+builder.Services.AddScoped<IPagoSvc, PagoSvc>();
+builder.Services.AddScoped<IRecibosSvc, RecibosSvc>();
+
+
 
 //IDENTITY
 builder.Services.AddScoped<ITokenService, TokenService>();

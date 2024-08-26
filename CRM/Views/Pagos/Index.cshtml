@@ -1,0 +1,274 @@
+﻿@using Newtonsoft.Json;
+@using Entities.Entities
+@model IEnumerable<ListaPagosViewModel>
+
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Admin. Pagos";
+    string[] items = new string[] { "Home", "Admin. Pagos" };
+
+}
+
+@{
+    var u = JsonConvert.DeserializeObject(ViewBag.UsuarioEnSesion);
+}
+
+<div class=" pt-16 lg:pl-64 pl-0 bg-white dark:bg-gray-900">
+    <div class="p-4 pt-40 sm:ml-64">
+        <div class="p-1">
+            <nav class="flex" aria-label="Breadcrumb">
+                <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
+                    @HtmlElement.TailwindBreadCrumb(Html, items)
+                </ol>
+            </nav>
+            <br />
+            <div class="p-1">
+                <div class="mt-3 grid grid-cols-12 mb-3">
+                    <div class="col-span-12 lg:col-span-6">
+                        <div class="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg shadow-lg">
+                            <h5 class="text-xl font-bold mb-4 dark:text-white">Admin. Pagos</h5>
+                            <hr class="h-px my-2 bg-gray-400 border-0 dark:bg-gray-100">
+                            <div class="grid gap-4 mt-6 mb-4 grid-cols-1 md:grid-cols-1">
+                                <div class="col-span-1">
+                                    <div class="relative">
+                                        @HtmlElement.ActionLink(Html, "blue", "Agregar Pago", "Agregar", "Pagos", "fa-solid fa-coins", "")
+                                        @HtmlElement.ActionLink(Html, "green", "Generar Pagos", "GenerarPagosClientes", "Pagos", "fa-solid fa-coins", "")
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="grid gap-4 mt-6 mb-4 grid-cols-1 md:grid-cols-1">
+                                @if (TempData["ErrorGeneratePagos"] != null)
+                                {
+                                    @HtmlElement.TailwindAlert(Html, "Ocurrió un error", TempData["ErrorGeneratePagos"].ToString(), "red", "fa-solid fa fa-times-circle", "")
+                                }
+
+                                @if (TempData["SuccessGeneratePagos"] != null)
+                                {
+                                    @HtmlElement.TailwindAlert(Html, "Información", TempData["SuccessGeneratePagos"].ToString(), "green", "fa-solid fa fa-check", "")
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-4 grid grid-cols-12 mb-3">
+
+                    @if (TempData["SuccessAction"] != null)
+                    {
+                        @HtmlElement.TailwindAlert(Html, "Información", TempData["SuccessAction"].ToString(), "green", "fa-solid fa fa-check", "")
+                    }
+
+                    @if (TempData["ErrorAction"] != null)
+                    {
+                        @HtmlElement.TailwindAlert(Html, "Error", TempData["ErrorAction"].ToString(), "red", "fa-solid fa fa-times", "")
+                    }
+
+                    @if (ViewData["NoDataList"] != null)
+                    {
+                        @HtmlElement.TailwindAlert(Html, "Advertencia", ViewData["NoDataList"].ToString(), "yellow", "fa-solid fa fa-exclamation-triangle", "")
+                    }
+
+                    @if (ViewData["ErrorList"] != null)
+                    {
+                        @HtmlElement.TailwindAlert(Html, "Ocurrió un error", ViewData["ErrorList"].ToString(), "red", "fa-solid fa fa-times-circle", "")
+                    }
+
+
+
+                    @if (Model.Any())
+                    {
+                        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+
+                            <div style="overflow:auto; max-height:25rem">
+                                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                    <thead class="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
+                                        <tr>
+                                            <!-- Mantén las columnas ocultas en el encabezado para coincidir con el cuerpo -->
+                                            <th hidden scope="col" class="text-center px-6 py-3">
+                                                IdPago
+                                            </th>
+                                            <th hidden scope="col" class="px-6 py-3">
+                                                IdCliente
+                                            </th>
+                                            <th hidden scope="col" class="px-6 py-3">
+                                                IdUsuarioCreacion
+                                            </th>
+                                            <th hidden scope="col" class="px-6 py-3">
+                                                IdServicio
+                                            </th>
+                                            <th hidden scope="col" class="px-6 py-3">
+                                                IdEstadoPago
+                                            </th>
+                                            <th scope="col" class="text-center px-6 py-3">
+                                                Cliente
+                                            </th>
+                                            <th scope="col" class="text-center px-6 py-3">
+                                                Monto del Pago
+                                            </th>
+                                            <th scope="col" class="text-center px-6 py-3">
+                                                Mes del Pago
+                                            </th>
+                                            <th scope="col" class="text-center px-6 py-3">
+                                                Estado Cliente
+                                            </th>
+                                            <th scope="col" class="text-center px-6 py-3">
+                                                Estado Pago
+                                            </th>
+                                            <th scope="col" class="text-center px-6 py-3">
+                                                Creado Por:
+                                            </th>
+                                            <th scope="col" class="text-center px-6 py-3">
+                                                Acciones
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="bg-gray-50 dark:bg-gray-800">
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td hidden class="px-6 py-4">
+                                                    @item.IdPago
+                                                </td>
+                                                <td hidden class="px-6 py-4">
+                                                    @item.IdCliente
+                                                </td>
+                                                <td hidden class="px-6 py-4">
+                                                    @item.IdUsuarioCreacion
+                                                </td>
+                                                <td hidden class="px-6 py-4">
+                                                    @item.IdServicio
+                                                </td>
+                                                <td hidden class="px-6 py-4">
+                                                    @item.IdEstadoPago
+                                                </td>
+                                                <td class="px-6 py-4">
+                                                    @item.NombreCliente
+                                                </td>
+                                                <td class="px-6 py-4">
+                                                    @{
+                                                        var simboloMoneda = "";
+                                                        if(item.IdMoneda == 1)
+                                                        {
+                                                            simboloMoneda = "₡";
+                                                        }
+                                                        else
+                                                        {
+                                                            simboloMoneda = "$";
+                                                        }
+                                                    }
+                                                    @HtmlElement.TailwindBadge(Html, "indigo", "fa-solid fa-coins", simboloMoneda + @item.MontoPago.ToString(), "")
+                                                </td>
+                                                <td class="px-6 py-4">
+                                                    @{
+                                                        DateTime? mesPago = @item.MesPago;
+                                                        string mesYAnio = mesPago.HasValue ?
+                                                        System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(mesPago.Value.ToString("MMMM yyyy").ToLower())
+                                                        : "Fecha no disponible";
+                                                    }
+                                                    @HtmlElement.TailwindBadge(Html, "silver", "fa-solid fa-calendar", mesYAnio, "")
+                                                </td>
+
+                                                <td class="px-6 py-4">
+                                                    @{
+                                                        DateTime hoy = DateTime.Today;
+                                                        var diaHoy = hoy.Year;
+                                                        var mesHoy = hoy.Month;
+                                                        var anioHoy = hoy.Year;
+                                                        var diaFromMesPago = mesPago.Value.Day;
+                                                        var mesFromMesPago = mesPago.Value.Month;
+                                                        var anioFromMesPago = mesPago.Value.Year;
+
+                                                        if(diaHoy < 15 || mesHoy < mesFromMesPago || anioHoy < anioFromMesPago && (item.IdEstadoPago == 1 || item.IdEstadoPago == 3) && item.EnviadoAFacturar == false)
+                                                        {
+                                                            @HtmlElement.TailwindBadge(Html, "green", "fa-solid fa-check", $"Al Día", "")
+                                                        }
+                                                        else if (diaHoy > 15 && mesFromMesPago == mesHoy && (item.IdEstadoPago == 1 || item.IdEstadoPago == 3) && item.EnviadoAFacturar == false)
+                                                        {
+                                                            @HtmlElement.TailwindBadge(Html, "yellow", "fa-solid fa-coins", $"Al Cobro", "")
+                                                        }
+
+                                                        else if (diaHoy > 15 && mesFromMesPago < mesHoy && (item.IdEstadoPago == 1 || item.IdEstadoPago == 3) && item.EnviadoAFacturar == false)
+                                                        {
+                                                            @HtmlElement.TailwindBadge(Html, "red", "fa-solid fa-info-circle", $"Moroso", "")
+
+                                                        }
+                                                        else if(item.IdEstadoPago == 2)
+                                                        {
+                                                            @HtmlElement.TailwindBadge(Html, "green", "fa-solid fa-check", $"Al Día", "")
+                                                        }
+                                                        
+                                                        if(item.EnviadoAFacturar == true && item.IdEstadoPago == 2){
+                                                            @HtmlElement.TailwindBadge(Html, "green", "fa-solid fa-check", $"Facturado", "")
+
+                                                        }
+
+                                                        else if (item.EnviadoAFacturar == true && item.IdEstadoPago == 1 || item.IdEstadoPago == 3)
+                                                        {
+                                                            @HtmlElement.TailwindBadge(Html, "blue", "fa-solid fa-paper-plane", $"Enviado a Facturar", "")
+
+                                                        }
+
+                                                        else
+                                                        {
+                                                            @HtmlElement.TailwindBadge(Html, "yellow", "fa-solid fa-info-circle", $"No Facturado", "")
+
+                                                        }
+
+                                                        
+
+                                                    }
+                                                </td>
+
+                                                <td class="px-6 py-4">
+                                                    @if (item.IdEstadoPago == 1)
+                                                    {
+                                                        @HtmlElement.TailwindBadge(Html, "yellow", "fa-solid fa-warning ", @item.EstadoPago, "")
+                                                    }
+                                                    else if (item.IdEstadoPago == 2)
+                                                    {
+                                                        @HtmlElement.TailwindBadge(Html, "green", "fa-solid fa-check ", @item.EstadoPago, "")
+                                                    }
+                                                    else if (item.IdEstadoPago == 3)
+                                                    {
+                                                        @HtmlElement.TailwindBadge(Html, "red", "fa-solid fa-calendar ", @item.EstadoPago, "")
+                                                    }
+                                                    else if (item.IdEstadoPago == 4)
+                                                    {
+                                                        @HtmlElement.TailwindBadge(Html, "red", "fa-solid fa-ban ", @item.EstadoPago, "")
+                                                    }
+
+                                                </td>
+                                                <td class="px-6 py-4">
+                                                    @HtmlElement.TailwindBadge(Html, "purple", "fa-solid fa-user ", @item.NombreUsuario, "")
+                                                </td>
+
+                                                <td class="px-6 py-4">
+                                                    @if(item.EnviadoAFacturar == false)
+                                                    {
+                                                        @HtmlElement.TailwindTableButton(Html, "blue", "", "fa-solid fa-pencil", "", "btn", "Editar del Pago", $"/Pagos/Editar/{item.IdPago}")
+
+                                                    }
+
+                                                    else if (item.IdEstadoPago == 2 && item.EnviadoAFacturar == true)
+                                                    {
+                                                        @HtmlElement.TailwindTableButton(Html, "purple", "", "fa-solid fa-eye", "", "btn", "Ver Pago", $"/Pagos/VerPago/{item.IdPago}")
+
+                                                    }
+
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    }
+
+
+                </div>
+            </div>
+        </div>
+    </div>

@@ -69,12 +69,16 @@ namespace CRM.Controllers
             {
                 ViewBag.UsuarioEnSesion = usuarioEnSesion;
                 var tiposIdentificacion = GetTiposIdentificacion();
+                var servicios = GetServicios();
+
+               
                 var tiposPlan = new List<TipoPlan>()
                 {
                     new TipoPlan { IdTipoPlan = 1, Nombre = "Mensual" },
                     new TipoPlan { IdTipoPlan = 2, Nombre = "Anual" }
                 };
                 ViewData["TiposPlan"] = tiposPlan;
+                ViewData["ServiciosCatalogo"] = servicios;
                 ViewData["TiposIdentificacion"] = tiposIdentificacion;
                 return View();
             }
@@ -97,6 +101,9 @@ namespace CRM.Controllers
                 {
                     ViewBag.UsuarioEnSesion = usuarioEnSesion;
                     var item = ClienteHelper.GetClienteById(id);
+                    var servicios = GetServicios().Where(s => s.Eliminado == false);
+
+
                     if (item == null)
                     {
                         ViewData["NoItemById"] = "No se ha encontrado el cliente";
@@ -112,6 +119,8 @@ namespace CRM.Controllers
                         };
                         ViewData["TiposPlan"] = tiposPlan;
                         ViewData["TiposIdentificacion"] = tiposIdentificacion;
+                        ViewData["ServiciosCatalogo"] = servicios;
+
                         return View(item);
                     }
                 }
@@ -188,6 +197,13 @@ namespace CRM.Controllers
 
         }
 
+        public List<ServiciosViewModel> GetServicios()
+        {
+            var listadoServicio = ClienteHelper.GetServicios();
+            return listadoServicio;
+        }
+
+
         [HttpPost]
         public IActionResult AgregarCliente(ClienteViewModel model)
         {
@@ -206,7 +222,6 @@ namespace CRM.Controllers
                 if (ModelState.IsValid)
                 {
                     model.Eliminado = false;
-                    model.IdServicio = 1;
                     model.IdUsuarioCreacion = usuarioModel.Id;
 
                     ClienteHelper.AddCliente(model);

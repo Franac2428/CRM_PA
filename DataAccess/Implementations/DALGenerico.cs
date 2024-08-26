@@ -73,5 +73,12 @@ namespace DataAccess.Implementations
                 return false;
             }
         }
+
+        public TEntity Get(TEntity model)
+        {
+
+            return _crm.Set<TEntity>().Find(model);
+        }
+
     }
 }

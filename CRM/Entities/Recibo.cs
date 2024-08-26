@@ -21,6 +21,8 @@ public partial class Recibo
 
     public bool? AnuladoParcial { get; set; }
 
+    public string? JsonRecibo { get; set; }
+
     public virtual ICollection<DetallesRecibo> DetallesRecibos { get; set; } = new List<DetallesRecibo>();
 
     public virtual Cliente? IdClienteNavigation { get; set; }

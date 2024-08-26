@@ -10,6 +10,4 @@ public partial class TipoEstadoPago
     public string? Nombre { get; set; }
 
     public virtual ICollection<Pago> Pagos { get; set; } = new List<Pago>();
-
-    public virtual ICollection<PagosGenerado> PagosGenerados { get; set; } = new List<PagosGenerado>();
 }

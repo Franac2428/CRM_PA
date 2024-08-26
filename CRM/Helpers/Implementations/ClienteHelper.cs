@@ -97,6 +97,29 @@ namespace CRM.Helpers.Interfaces
             return new ClienteViewModel();
         }
 
+        public List<ServiciosViewModel> GetServicios()
+        {
+            HttpResponseMessage response = ServiceRepository.GetResponse("api/servicios");
+            List<ServiciosViewModel> listado = new List<ServiciosViewModel>();
+            List<ServiciosModel> result = new List<ServiciosModel>();
+
+            if (response != null)
+            {
+                var content = response.Content.ReadAsStringAsync().Result;
+                result = JsonConvert.DeserializeObject<List<ServiciosModel>>(content);
+            }
+
+            foreach (var item in result)
+            {
+                listado.Add(ConvertirServiciosModel(item));
+            }
+
+            return listado;
+
+
+        }
+
+
 
         #region [CONVERTIR MODELS]
         public ClienteViewModel ConvertirModel(ClienteModel model)
@@ -140,6 +163,36 @@ namespace CRM.Helpers.Interfaces
                 FechaModificacion = model.FechaModificacion
             };
         }
+
+        public ServiciosViewModel ConvertirServiciosModel(ServiciosModel model)
+        {
+            return new ServiciosViewModel
+            {
+                IdServicio = model.IdServicio,
+                Nombre = model.Nombre,
+                Monto = model.Monto,
+                IdMoneda = model.IdMoneda,
+                Eliminado = model.Eliminado
+            };
+        }
+
+
+        public ServiciosModel ConvertirServiciosModel(ServiciosViewModel model)
+        {
+            return new ServiciosModel
+            {
+                IdServicio = model.IdServicio,
+                Nombre = model.Nombre,
+                Monto = model.Monto,
+                IdUsuarioCreacion = model.IdUsuarioCreacion,
+                IdUsuarioModificacion = model.IdUsuarioModificacion,
+                FechaCreacion = model.FechaCreacion,
+                FechaModificacion = model.FechaModificacion,
+                IdMoneda = model.IdMoneda,
+                Eliminado = model.Eliminado
+            };
+        }
+
 
         #endregion
 

@@ -11,5 +11,5 @@ public partial class TipoMonedum
 
     public virtual ICollection<Saldo> Saldos { get; set; } = new List<Saldo>();
 
-    public virtual ICollection<Servicios> Servicios { get; set; } = new List<Servicios>();
+    public virtual ICollection<Servicio> Servicios { get; set; } = new List<Servicio>();
 }
