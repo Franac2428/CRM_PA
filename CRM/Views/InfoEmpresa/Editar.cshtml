@@ -1,0 +1,124 @@
+﻿@using Entities.Entities
+@using CRM.ViewModels;
+@model CRM.ViewModels.InfoEmpresaViewModel;
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Editar Empresa";
+    string[] items = new string[] { "Empresas", "Editar Empresa" };
+}
+
+@{
+    var op = ViewData["TiposIdentificacion"];
+    IEnumerable<TipoIdentificacion> tiOptions = op as IEnumerable<TipoIdentificacion>;
+}
+
+<div class="pt-16 lg:pl-64 pl-0 bg-white dark:bg-gray-900">
+    <div class="p-4 pt-40 sm:ml-64">
+        <div class="p-1">
+            <nav class="flex" aria-label="Breadcrumb">
+                <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
+                    @HtmlElement.TailwindBreadCrumb(Html, items)
+                </ol>
+            </nav>
+            <br />
+            <div class="p-1">
+                <div class="mt-3 grid grid-cols-12 mb-3">
+                    <div class="col-span-12 lg:col-span-6">
+                        <div class="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg shadow-lg">
+                            <h5 class="text-xl font-bold mb-4 dark:text-white">Editar Empresa</h5>
+                            <hr class="h-px my-2 bg-gray-400 border-0 dark:bg-gray-100">
+                            @if (ViewData["NoItemById"] != null)
+                            {
+                                @HtmlElement.TailwindAlert(Html, "Advertencia", ViewData["NoItemById"].ToString(), "yellow", "fa-solid fa fa-exclamation-triangle", "")
+                            }
+                            @if (Model.IdInfoEmpresa != 0)
+                            {
+                                <form asp-action="EditarEmpresa" class="p-4 md:p-5">
+                                    <div class="grid gap-4 mb-4 grid-cols-1 md:grid-cols-2">
+                                        <div hidden class="col-span-1">
+                                            <div class="block mb-2 text-md font-medium text-gray-900 dark:text-white">
+                                                IdEmpresa
+                                            </div>
+                                            @Html.TextBoxFor(model => model.IdInfoEmpresa, new { @class = "bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" })
+                                        </div>
+
+                                        <div class="col-span-1">
+                                            <div class="block mb-2 text-md font-medium text-gray-900 dark:text-white">
+                                                Nombre
+                                            </div>
+                                            @Html.TextBoxFor(model => model.Nombre, new { @class = "bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500", placeholder = "Nombre de la Empresa", required = "required" })
+                                            @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-red-600 dark:text-red-500" })
+                                            <span asp-validation-for="Nombre" class="text-red-600"></span>
+                                        </div>
+
+                                        <div class="col-span-1">
+                                            <div class="block mb-2 text-md font-medium text-gray-900 dark:text-white">
+                                                Correo
+                                            </div>
+                                            @Html.TextBoxFor(model => model.Correo, new { @class = "bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500", placeholder = "Correo de la Empresa", required = "required" })
+                                            <span asp-validation-for="Correo" class="text-red-600"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="grid gap-4 mb-4 grid-cols-1 md:grid-cols-4">
+                                        <div class="col-span-1">
+                                            <div class="block mb-2 text-md font-medium text-gray-900 dark:text-white">
+                                                Teléfono
+                                            </div>
+                                            @Html.TextBoxFor(model => model.Telefono, new { @class = "bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500", placeholder = "Teléfono de la Empresa", required = "required" })
+                                            <span asp-validation-for="Telefono" class="text-red-600"></span>
+                                        </div>
+
+                                        <div class="col-span-1">
+                                            <div class="block mb-2 text-md font-medium text-gray-900 dark:text-white">
+                                                Tipo Identificación
+                                            </div>
+                                            @if (tiOptions != null)
+                                            {
+                                                @Html.DropDownListFor(
+                                                         model => model.IdTipoIdentificacion,
+                                                         new SelectList(tiOptions, "IdTipoIdentificacion", "Nombre"),
+                                                         "Seleccione un Tipo",
+                                                         new { @class = "bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500", required = "required" }
+                                                         )
+                                            }
+                                            else
+                                            {
+                                                <span class="text-red-600">No hay datos...</span>
+                                            }
+                                            <span asp-validation-for="IdTipoIdentificacion" class="text-red-600"></span>
+                                        </div>
+
+                                        <div class="col-span-1">
+                                            <div class="block mb-2 text-md font-medium text-gray-900 dark:text-white">
+                                                Identificación
+                                            </div>
+                                            @Html.TextBoxFor(model => model.Identificacion, new { @class = "bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500", placeholder = "Identificación de la Empresa", required = "required" })
+                                            <span asp-validation-for="Identificacion" class="text-red-600"></span>
+                                        </div>
+
+                                        <div class="col-span-1">
+                                            <div class="block mb-2 text-md font-medium text-gray-900 dark:text-white">
+                                                Actividad
+                                            </div>
+                                            @Html.TextBoxFor(model => model.Actividad, new { @class = "bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500", placeholder = "Actividad de la Empresa", required = "required" })
+                                            <span asp-validation-for="Actividad" class="text-red-600"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="grid gap-4 mb-4 grid-cols-1 md:grid-cols-1">
+                                        <div class="mt-4">
+                                            @HtmlElement.Button(Html, "blue", "Actualizar", "", "submit", "fa-solid fa-pencil", "", "")
+                                            @HtmlElement.ActionLink(Html, "gray", "Regresar al listado", "Index", "InfoEmpresa", "fa-solid fa-undo", "")
+                                        </div>
+                                    </div>
+                                </form>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

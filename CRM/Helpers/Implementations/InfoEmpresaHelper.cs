@@ -1,13 +1,12 @@
 ﻿using CRM.APIModels;
-using CRM.Helpers.Implementations;
-using CRM.ViewModels;
 using CRM.Helpers.Interfaces;
-using E = Entities.Entities;
+using CRM.ViewModels;
+using Entities.Entities;
 using Newtonsoft.Json;
-using CRM.Entities;
+using System.Collections.Generic;
+using System.Net.Http;
 
 namespace CRM.Helpers.Implementations
-
 {
     public class InfoEmpresaHelper : IInfoEmpresaHelper
     {
@@ -18,93 +17,110 @@ namespace CRM.Helpers.Implementations
             this.ServiceRepository = service;
         }
 
-        public CRMResponse Add(InfoEmpresaViewModel model)
-        {
-            HttpResponseMessage response = ServiceRepository.PostResponse("api/infoempresa", ConvertirModel(model));
-
-            CRMResponse result = new CRMResponse();
-
-            if (response != null)
-            {
-                var content = response.Content.ReadAsStringAsync().Result;
-            }
-
-            return new CRMResponse()
-            {
-                Codigo = 400,
-                Mensaje = "",
-                Status = "Success",
-                Data = null
-            };
-        }
-
-        public CRMResponse Get(int id)
+        public List<InfoEmpresaViewModel> GetEmpresas()
         {
             HttpResponseMessage response = ServiceRepository.GetResponse("api/infoempresa");
+            List<InfoEmpresaViewModel> listado = new List<InfoEmpresaViewModel>();
 
-            CRMResponse result = new CRMResponse();
-
-            if (response != null)
+            if (response != null && response.IsSuccessStatusCode)
             {
-                try
-                {
-                    var content = response.Content.ReadAsStringAsync().Result;
-                    var r = JsonConvert.DeserializeObject<List<InfoEmpresaViewModel>>(content);
-                    var data = r.FirstOrDefault();
-                    
-                    return new CRMResponse()
-                    {
-                        Codigo = 200,
-                        Mensaje = "",
-                        Status = "Success",
-                        Data = data
-                    };
-                }
-                catch (Exception ex) {
+                var content = response.Content.ReadAsStringAsync().Result;
+                var result = JsonConvert.DeserializeObject<List<InfoEmpresaModel>>(content);
 
-                    return new CRMResponse()
+                if (result != null)
+                {
+                    foreach (var item in result)
                     {
-                        Codigo = 400,
-                        Mensaje = "",
-                        Status = "Failed",
-                        Data = ex.Message
-                    };
+                        listado.Add(ConvertirModel(item));
+                    }
                 }
-                
             }
 
-            return new CRMResponse()
-            {
-                Codigo = 400,
-                Mensaje = "",
-                Status = "Failed",
-                Data = null
-            };
-
+            return listado;
         }
 
-        public CRMResponse Update(InfoEmpresaViewModel model)
+        public List<TipoIdentificacion> GetTiposIdentificacion()
         {
-            HttpResponseMessage response = ServiceRepository.PutResponse("api/infoempresa", ConvertirModel(model));
+            HttpResponseMessage response = ServiceRepository.GetResponse("api/tipoIdentificacion");
+            List<TipoIdentificacion> result = new List<TipoIdentificacion>();
 
-            CRMResponse result = new CRMResponse();
+            if (response != null && response.IsSuccessStatusCode)
+            {
+                var content = response.Content.ReadAsStringAsync().Result;
+                result = JsonConvert.DeserializeObject<List<TipoIdentificacion>>(content);
+            }
+
+            return result;
+        }
+
+        public InfoEmpresaViewModel AddEmpresa(InfoEmpresaViewModel empresa)
+        {
+            HttpResponseMessage response = ServiceRepository.PostResponse("api/infoempresa", ConvertirModel(empresa));
+
+            if (response != null && response.IsSuccessStatusCode)
+            {
+                var content = response.Content.ReadAsStringAsync().Result;
+                var result = JsonConvert.DeserializeObject<InfoEmpresaModel>(content);
+                return result != null ? ConvertirModel(result) : new InfoEmpresaViewModel();
+            }
+
+            return new InfoEmpresaViewModel();
+        }
+
+        public InfoEmpresaViewModel GetEmpresaById(int id)
+        {
+            HttpResponseMessage response = ServiceRepository.GetResponse($"api/infoempresa/{id}");
+
+            if (response != null && response.IsSuccessStatusCode)
+            {
+                var content = response.Content.ReadAsStringAsync().Result;
+                var result = JsonConvert.DeserializeObject<InfoEmpresaModel>(content);
+                return result != null ? ConvertirModel(result) : new InfoEmpresaViewModel();
+            }
+
+            return new InfoEmpresaViewModel();
+        }
+
+        public InfoEmpresaViewModel UpdateEmpresa(InfoEmpresaViewModel empresa)
+        {
+            HttpResponseMessage response = ServiceRepository.PutResponse($"api/InfoEmpresa/{empresa.IdInfoEmpresa}", ConvertirModel(empresa));
 
             if (response != null)
             {
                 var content = response.Content.ReadAsStringAsync().Result;
             }
 
-            return new CRMResponse()
-            {
-                Codigo = 400,
-                Mensaje = "",
-                Status = "Success",
-                Data = null
-            };
+            return new InfoEmpresaViewModel();
         }
 
-        public InfoEmpresaViewModel ConvertirModel(InfoEmpresaModel model)
+        // Implementación del método GetServicios
+        public List<ServiciosViewModel> GetServicios()
         {
+            HttpResponseMessage response = ServiceRepository.GetResponse("api/servicios");
+            List<ServiciosViewModel> listado = new List<ServiciosViewModel>();
+
+            if (response != null && response.IsSuccessStatusCode)
+            {
+                var content = response.Content.ReadAsStringAsync().Result;
+                var result = JsonConvert.DeserializeObject<List<ServiciosModel>>(content);
+
+                if (result != null)
+                {
+                    foreach (var item in result)
+                    {
+                        listado.Add(ConvertirServiciosModel(item));
+                    }
+                }
+            }
+
+            return listado;
+        }
+
+        #region [CONVERTIR MODELS]
+        private InfoEmpresaViewModel ConvertirModel(InfoEmpresaModel model)
+        {
+            if (model == null) return new InfoEmpresaViewModel();
+
             return new InfoEmpresaViewModel
             {
                 IdInfoEmpresa = model.IdInfoEmpresa,
@@ -114,12 +130,13 @@ namespace CRM.Helpers.Implementations
                 IdTipoIdentificacion = model.IdTipoIdentificacion,
                 Nombre = model.Nombre,
                 Telefono = model.Telefono
-                
             };
         }
 
-        public InfoEmpresaModel ConvertirModel(InfoEmpresaViewModel model)
+        private InfoEmpresaModel ConvertirModel(InfoEmpresaViewModel model)
         {
+            if (model == null) return new InfoEmpresaModel();
+
             return new InfoEmpresaModel
             {
                 IdInfoEmpresa = model.IdInfoEmpresa,
@@ -129,9 +146,32 @@ namespace CRM.Helpers.Implementations
                 IdTipoIdentificacion = model.IdTipoIdentificacion,
                 Nombre = model.Nombre,
                 Telefono = model.Telefono
-
             };
         }
 
+        private ServiciosViewModel ConvertirServiciosModel(ServiciosModel model)
+        {
+            return new ServiciosViewModel
+            {
+                IdServicio = model.IdServicio,
+                Nombre = model.Nombre,
+                Monto = model.Monto,
+                IdMoneda = model.IdMoneda,
+                Eliminado = model.Eliminado
+            };
+        }
+
+        private ServiciosModel ConvertirServiciosModel(ServiciosViewModel model)
+        {
+            return new ServiciosModel
+            {
+                IdServicio = model.IdServicio,
+                Nombre = model.Nombre,
+                Monto = model.Monto,
+                IdMoneda = model.IdMoneda,
+                Eliminado = model.Eliminado
+            };
+        }
+        #endregion
     }
 }

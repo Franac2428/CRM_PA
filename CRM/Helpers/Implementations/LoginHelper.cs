@@ -2,7 +2,7 @@
 using CRM.APIModels;
 using CRM.ViewModels;
 using Entities.Entities;
-using Newtonsoft.Json; 
+using Newtonsoft.Json;
 
 namespace CRM.Helpers.Interfaces
 {
@@ -14,28 +14,38 @@ namespace CRM.Helpers.Interfaces
         {
             this.ServiceRepository = service;
         }
-        
+
         public CRMResponse OnLogin(LoginModel model)
         {
-            HttpResponseMessage response = ServiceRepository.PostResponse("api/auth/login",model);
-            
-            if(response != null)
+            HttpResponseMessage response = ServiceRepository.PostResponse("api/auth/login", model);
+
+            if (response != null)
             {
                 var content = response.Content.ReadAsStringAsync().Result;
                 var result = JsonConvert.DeserializeObject<CRMResponse>(content);
 
                 return result;
-
             }
             else
             {
                 return new CRMResponse();
             }
-
         }
+        public CRMResponse OnRegister(RegisterModel model)
+        {
+            HttpResponseMessage response = ServiceRepository.PostResponse("api/auth/register", model);
 
-       
-        
+            if (response != null)
+            {
+                var content = response.Content.ReadAsStringAsync().Result;
+                var result = JsonConvert.DeserializeObject<CRMResponse>(content);
 
+                return result;
+            }
+            else
+            {
+                return new CRMResponse();
+            }
+        }
     }
 }

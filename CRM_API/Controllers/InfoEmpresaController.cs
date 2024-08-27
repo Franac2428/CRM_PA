@@ -3,48 +3,68 @@ using CRM_API.Services.Interfaces;
 using Entities.Entities;
 using Microsoft.AspNetCore.Mvc;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace CRM_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class InfoEmpresaController : ControllerBase
     {
-        IInfoEmpresaServices InfoEmpresa;
+        private readonly IInfoEmpresaServices _infoEmpresaServices;
 
         public InfoEmpresaController(IInfoEmpresaServices infoEmpresaServices)
         {
-            InfoEmpresa = infoEmpresaServices;
+            _infoEmpresaServices = infoEmpresaServices;
         }
 
         // GET: api/<InfoEmpresaController>
         [HttpGet]
-        public IEnumerable<InfoEmpresaModel> Get()
+        public ActionResult<IEnumerable<InfoEmpresaModel>> Get()
         {
-            return InfoEmpresa.GetInfoEmpresas();
+            var empresas = _infoEmpresaServices.GetInfoEmpresas();
+
+            if (empresas == null || !empresas.Any())
+            {
+                return NotFound("No se encontraron empresas.");
+            }
+
+            return Ok(empresas);
         }
 
         // GET api/<InfoEmpresaController>/5
         [HttpGet("{id}")]
-        public InfoEmpresaModel Get(int id)
+        public ActionResult<InfoEmpresaModel> Get(int id)
         {
-            return InfoEmpresa.GetById(id);
+            var empresa = _infoEmpresaServices.GetById(id);
+
+            if (empresa == null)
+            {
+                return NotFound($"Empresa con ID {id} no encontrada.");
+            }
+
+            return Ok(empresa);
         }
 
         // POST api/<InfoEmpresaController>
         [HttpPost]
-        public InfoEmpresaModel Post([FromBody] InfoEmpresaModel infoEmpresa)
+        public ActionResult<InfoEmpresaModel> Post([FromBody] InfoEmpresaModel infoEmpresa)
         {
-            InfoEmpresa.Add(infoEmpresa);
-            return infoEmpresa;
+            if (infoEmpresa == null)
+            {
+                return BadRequest("Datos inválidos.");
+            }
+
+            _infoEmpresaServices.Add(infoEmpresa);
+
+            return CreatedAtAction(nameof(Get), new { id = infoEmpresa.IdInfoEmpresa }, infoEmpresa);
         }
 
         // PUT api/<InfoEmpresaController>/5
-        [HttpPut]
+        [HttpPut("{id}")]
         public InfoEmpresaModel Put([FromBody] InfoEmpresaModel infoEmpresa)
         {
-            InfoEmpresa.Update(infoEmpresa);
+
+            _infoEmpresaServices.Update(infoEmpresa);
+
             return infoEmpresa;
         }
 
@@ -52,9 +72,22 @@ namespace CRM_API.Controllers
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {
-            var result = InfoEmpresa.Delete(id);
+            var existingEmpresa = _infoEmpresaServices.GetById(id);
+            if (existingEmpresa == null)
+            {
+                return NotFound($"Empresa con ID {id} no encontrada.");
+            }
 
-            return new JsonResult(result);
+            var result = _infoEmpresaServices.Delete(id);
+
+            if (result)
+            {
+                return NoContent();
+            }
+            else
+            {
+                return StatusCode(500, "Ocurrió un error al eliminar la empresa.");
+            }
         }
     }
 }

@@ -1,16 +1,21 @@
-﻿using CRM.APIModels;
-using CRM.ViewModels;
+﻿using CRM.ViewModels;
 using Entities.Entities;
 
 namespace CRM.Helpers.Interfaces
 {
     public interface IInfoEmpresaHelper
     {
-        CRMResponse Add(InfoEmpresaViewModel cliente);
+        List<InfoEmpresaViewModel> GetEmpresas();
 
-        CRMResponse Get(int id);
+        List<TipoIdentificacion> GetTiposIdentificacion();
 
-        CRMResponse Update(InfoEmpresaViewModel cliente);
+        InfoEmpresaViewModel AddEmpresa(InfoEmpresaViewModel empresa);
 
+        InfoEmpresaViewModel GetEmpresaById(int id);
+
+        InfoEmpresaViewModel UpdateEmpresa(InfoEmpresaViewModel empresa);
+
+        // Otros métodos
+        List<ServiciosViewModel> GetServicios();
     }
 }

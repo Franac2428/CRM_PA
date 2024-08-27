@@ -7,5 +7,6 @@ namespace CRM.Helpers.Interfaces
     public interface ILoginHelper
     {
         CRMResponse OnLogin(LoginModel model);
+        CRMResponse OnRegister(RegisterModel model);
     }
 }

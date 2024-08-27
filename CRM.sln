@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess", "DataAccess\Da
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Entities", "Entities\Entities.csproj", "{1B2F6D19-BF4A-40D0-827F-B58054D22C38}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRM_API", "CRM_API\CRM_API.csproj", "{EFEDD5CB-0BBA-4E4B-B135-CA50820C685C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CRM_API", "CRM_API\CRM_API.csproj", "{EFEDD5CB-0BBA-4E4B-B135-CA50820C685C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
