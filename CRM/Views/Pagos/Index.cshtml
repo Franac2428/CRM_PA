@@ -255,6 +255,9 @@
                                                     {
                                                         @HtmlElement.TailwindTableButton(Html, "purple", "", "fa-solid fa-eye", "", "btn", "Ver Pago", $"/Pagos/VerPago/{item.IdPago}")
 
+                                                        <button onclick="ReimprimirPago('@item.IdPago','@item.IdMoneda')" class="text-silver-700 hover:text-white border border-silver-700 hover:bg-silver-800 focus:ring-4 focus:outline-none focus:ring-silver-300 font-medium rounded-lg text-sm px-3 py-2.5 text-center me-2 mb-2 dark:border-silver-500 dark:text-silver-500 dark:hover:text-white dark:hover:bg-silver-500 dark:focus:ring-silver-800">
+                                                            <i class="fa-solid fa-print"></i>
+                                                        </button>
                                                     }
 
                                                 </td>
@@ -272,3 +275,4 @@
             </div>
         </div>
     </div>
+    <script src="~/js/recibos.js"></script>

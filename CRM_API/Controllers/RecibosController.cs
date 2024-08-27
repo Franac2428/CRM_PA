@@ -25,6 +25,12 @@ namespace CRM_API.Controllers
             return result;
         }
 
+        [HttpPut("{id}")]
+        public CRMResponse CancelarPago(int id)
+        {
+            var result = _svc.CancelarPago(id);
+            return result;
+        }
         
         #endregion
 

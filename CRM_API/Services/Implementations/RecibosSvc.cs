@@ -75,7 +75,32 @@ namespace CRM_API.Services.Implementations
             }
         }
 
-       
+        public AM.CRMResponse CancelarPago(int IdPago)
+        {
+            try
+            {
+                var result = _DA.CancelarPago(IdPago);
+
+                return new CRMResponse()
+                {
+                    Codigo = 200,
+                    Data = result,
+                    Status = "Success"
+                };
+
+            }
+            catch (Exception ex)
+            {
+                return new CRMResponse()
+                {
+                    Codigo = 400,
+                    Data = null,
+                    Status = "Failed"
+                };
+            }
+        }
+
+
         #endregion
 
 

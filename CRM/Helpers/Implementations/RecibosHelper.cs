@@ -34,6 +34,23 @@ namespace CRM.Helpers.Implementations
 
         }
 
+        public CRMResponse CancelarPago(int idPago)
+        {
+            HttpResponseMessage response = ServiceRepository.PutResponse($"api/recibos/{idPago}",null);
+            CRMResponse result = new CRMResponse();
+
+            if (response != null)
+            {
+                var content = response.Content.ReadAsStringAsync().Result;
+                result = JsonConvert.DeserializeObject<CRMResponse>(content);
+            }
+
+
+            return result;
+
+
+        }
+
 
 
 

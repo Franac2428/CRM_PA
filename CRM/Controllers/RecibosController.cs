@@ -11,11 +11,15 @@ namespace CRM.Controllers
     {
         private readonly IHttpContextAccessor _HttpCA;
         IRecibosHelper RecibosHelper;
+        IInfoEmpresaHelper InfoEmpresaHelper;
+        IPagosHelper PagosHelper;
 
-        public RecibosController(IHttpContextAccessor httpCA,IRecibosHelper helper)
+        public RecibosController(IHttpContextAccessor httpCA, IRecibosHelper helper, IInfoEmpresaHelper infoEmpresaHelper, IPagosHelper pagosHelper)
         {
             _HttpCA = httpCA;
             RecibosHelper = helper;
+            InfoEmpresaHelper = infoEmpresaHelper;
+            PagosHelper = pagosHelper;
         }
         public IActionResult Index()
         {
@@ -47,6 +51,71 @@ namespace CRM.Controllers
 
             }
         }
+
+        [HttpPost]
+        [Route("Recibos/CancelarPago/{id}")]
+        public IActionResult CancelarPago(int id)
+        {
+            var usuarioEnSesion = _HttpCA.HttpContext?.Session.GetString("UsuarioEnSesion");
+
+            if (usuarioEnSesion == null)
+            {
+                TempData["LoginError"] = "Tiempo de sesión finalizó";
+                return Redirect("/Account/Login");
+            }
+            else
+            {
+                var result = RecibosHelper.CancelarPago(id);
+                if (result.Status == "Success")
+                {
+                    //Obtenemos la info de la empresa:
+                    var infoEmpresa = InfoEmpresaHelper.GetEmpresaById(1);
+                    var infoPago = PagosHelper.GetPagoById(id);
+
+
+
+
+
+                    return new JsonResult(new { Status = "success", data = result, InfoEmpresa = infoEmpresa, InfoPago = infoPago });
+                }
+                else
+                {
+                    return new JsonResult(new { Status = "failed", data = (object)null });
+                }
+            }
+        }
+
+        [HttpPost]
+        [Route("Recibos/ReimprimirPago/{id}")]
+        public IActionResult ReimprimirPago(int id)
+        {
+            var usuarioEnSesion = _HttpCA.HttpContext?.Session.GetString("UsuarioEnSesion");
+
+            if (usuarioEnSesion == null)
+            {
+                TempData["LoginError"] = "Tiempo de sesión finalizó";
+                return Redirect("/Account/Login");
+            }
+            else
+            {
+
+                var infoEmpresa = InfoEmpresaHelper.GetEmpresaById(1);
+                var infoPago = PagosHelper.GetPagoById(id);
+
+                if (infoEmpresa != null || infoPago != null)
+                {
+                    return new JsonResult(new { Status = "success", InfoEmpresa = infoEmpresa, InfoPago = infoPago });
+
+                }
+                else
+                {
+                    return new JsonResult(new { Status = "failed", data = (object)null });
+                }
+
+            }
+
+        }
+
 
 
         #region [CONVERTIR MODELS]

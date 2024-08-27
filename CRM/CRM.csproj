@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <Content Remove="wwwroot\js\Pagos.js" />
+    <Content Remove="wwwroot\js\Recibos.js" />
   </ItemGroup>
 
   <ItemGroup>
@@ -15,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\js\Recibos.js" />
     <None Include="wwwroot\js\Pagos.js" />
   </ItemGroup>
 

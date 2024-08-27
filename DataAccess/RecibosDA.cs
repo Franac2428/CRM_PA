@@ -31,5 +31,29 @@ namespace DataAccess
                 }
             }
         }
+
+        public int CancelarPago(int IdPago)
+        {
+            using (var conn = new ConnManager(_configuration))
+            {
+                try
+                {
+                    var param = new
+                    {
+                        IdPago = IdPago,
+                        
+                    };
+
+                    var r = conn.ExecStoredProcScalar<int>("usp_PagarRecibo", param);
+
+                    return r;
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+        }
+
     }
 }

@@ -127,7 +127,7 @@
                                                 
 
                                                 <td class="px-6 py-4">
-                                                    <button onclick="printTemplate('@item.IdPago')" class="text-green-700 hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-3 py-2.5 text-center me-2 mb-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-500 dark:focus:ring-green-800">
+                                                    <button onclick="CancelarPago('@item.IdPago','@item.IdMoneda')" class="text-green-700 hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-3 py-2.5 text-center me-2 mb-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-500 dark:focus:ring-green-800">
                                                         <i class="fa-solid fa-paper-plane"></i> 
                                                     </button>
                                                 </td>
@@ -157,23 +157,8 @@
     </div>
 </div>
 
-<script>
-    function printTemplate(idPago) {
-        var printContents = document.getElementById('printContent').innerHTML;
-        var originalContents = document.body.innerHTML;
 
-        document.body.innerHTML = printContents;
-
-        window.print();
-
-        document.body.innerHTML = originalContents;
-
-        // Restaurar cualquier evento o script necesario (opcional)
-        location.reload(); // Si es necesario, puedes usar esta línea para recargar la página
-    }
-</script>
-
-
+<script src="~/js/recibos.js"></script>
 
 
 
